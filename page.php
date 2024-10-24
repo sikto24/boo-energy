@@ -17,22 +17,22 @@ get_header();
 
 <!-- Start Page Section -->
 <section id="primary" class="page-area-wrapper site-main">
-    <div class="container">
-        <div class="row">
-            <div class="col-xl-12">
-                <?php
-                if (have_posts()):
-                    while (have_posts()):
-                        the_post();
-                        get_template_part('template-parts/content', 'page');
-                    endwhile;
-                else:
-                    get_template_part('template-parts/content', 'none');
-                endif;
-                ?>
-            </div>
-        </div>
-    </div>
+	<div class="container">
+		<div class="row">
+			<div class="col-xl-12">
+				<?php
+				if ( have_posts() ) :
+					while ( have_posts() ) :
+						the_post();
+						get_template_part( 'template-parts/content', 'page' );
+					endwhile;
+				else :
+					get_template_part( 'template-parts/content', 'none' );
+				endif;
+				?>
+			</div>
+		</div>
+	</div>
 </section>
 <!-- End Page Section -->
 

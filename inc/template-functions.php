@@ -19,7 +19,7 @@ function boo_header_logo() {
 
 		if ( $custom_logo_id ) {
 			$site_logo_url = wp_get_attachment_image_url( $custom_logo_id, 'full' );
-			$site_logo = sprintf(
+			$site_logo     = sprintf(
 				'<a href="%s"><img src="%s" alt="%s" /></a>',
 				esc_url( home_url() ),
 				esc_url( $site_logo_url ),
@@ -46,14 +46,14 @@ function boo_header_menu() {
 
 		if ( class_exists( 'acf' ) && get_field( 'boo_page_menu' ) ) {
 			$boo_select_page_menu = get_field( 'boo_page_menu' );
-			$boo_main_menu = ( 'private-menu' === $boo_select_page_menu ) ? 'menu-1' : 'menu-2';
+			$boo_main_menu        = ( 'private-menu' === $boo_select_page_menu ) ? 'menu-1' : 'menu-2';
 		}
 		if ( has_nav_menu( 'menu-1' ) ) {
 			wp_nav_menu(
 				array(
 					'theme_location' => $boo_main_menu,
-					'menu_id' => 'primary-menu',
-					'menu_class' => 'primary-menu d-flex',
+					'menu_id'        => 'primary-menu',
+					'menu_class'     => 'primary-menu d-flex boo-reset-ul',
 				)
 			);
 		}
@@ -87,7 +87,7 @@ if ( ! function_exists( 'boo_pagination' ) ) {
 	function boo_pagination() {
 		$paginations = paginate_links(
 			array(
-				'type' => 'array',
+				'type'      => 'array',
 				'prev_text' => '<i class="fa-regular fa-arrow-left"></i>',
 				'next_text' => '<i class="fa-regular fa-arrow-right"></i>',
 			)
@@ -134,7 +134,7 @@ if ( ! function_exists( 'boo_energy_comment' ) ) {
 		extract( $args, EXTR_SKIP );
 		$args['reply_text'] = '<div class="boo-postbox-comment-reply"><span>Reply</span>
     </div>';
-		$replayClass = 'comment-depth-' . esc_attr( $depth );
+		$replayClass        = 'comment-depth-' . esc_attr( $depth );
 		?>
 
 
@@ -155,7 +155,7 @@ if ( ! function_exists( 'boo_energy_comment' ) ) {
 							array_merge(
 								$args,
 								array(
-									'depth' => $depth,
+									'depth'     => $depth,
 									'max_depth' => $args['max_depth'],
 								)
 							)

@@ -14,10 +14,10 @@ function boo_energy_breadcrumb_markup() {
 
 	if ( is_single() && get_post_type() == 'post' ) {
 		$single_blog_calendar = get_the_time( get_option( 'date_format' ) );
-		$single_blog_class = 'single-blog-style';
+		$single_blog_class    = 'single-blog-style';
 	} else {
 		$single_blog_calendar = '';
-		$single_blog_class = '';
+		$single_blog_class    = '';
 	}
 
 	if ( is_single() ) {

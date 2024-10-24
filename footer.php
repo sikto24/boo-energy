@@ -10,12 +10,12 @@
  */
 
 // Start Footer
-if (function_exists('elementor_theme_do_location') && elementor_theme_do_location('header')) {
-    // Elementor footer is used
-    elementor_theme_do_location('footer');
+if ( function_exists( 'elementor_theme_do_location' ) && elementor_theme_do_location( 'header' ) ) {
+	// Elementor footer is used
+	elementor_theme_do_location( 'footer' );
 } else {
-    // Fallback to your custom Footer
-    do_action('boo_footer');
+	// Fallback to your custom Footer
+	do_action( 'boo_footer' );
 }
 // End Footer
 ?>

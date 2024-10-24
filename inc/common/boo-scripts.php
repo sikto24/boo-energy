@@ -13,6 +13,7 @@ function boo_theme_scripts() {
 	wp_enqueue_style( 'bootstrap', BOO_THEME_CSS_DIR . 'bootstrap.min.css', null, '5.0', 'all' );
 	wp_enqueue_style( 'boo-aniamtion', BOO_THEME_CSS_DIR . 'boo-custom-animation.css', null, null, 'all' );
 	wp_enqueue_style( 'boo-main', BOO_THEME_CSS_DIR . 'style.css', null, null, 'all' );
+	wp_enqueue_style( 'boo-spacing', BOO_THEME_CSS_DIR . 'boo-spacing.css', null, null, 'all' );
 	wp_enqueue_style( 'boo-fonts', boo_fonts_url(), array(), '1.0.0' );
 	wp_enqueue_style( 'boo-style', get_stylesheet_uri() );
 
