@@ -1,3 +1,8 @@
+<!-- Start Boo CTA  -->
+<?php get_template_part( 'template-parts/boo-footer-cta' ); ?>
+<!-- END Boo CTA  -->
+
+<!-- Start Footer  -->
 <footer class="footer-area-wrapper d-pt-88 m-pt-32">
 	<div class="container">
 		<div class="footer-top-area d-pt-32 d-pb-32 m-p-24">
@@ -68,11 +73,11 @@
 					<div class="footer-middle-share-area d-flex">
 						<h6><?php echo esc_html__( 'Följ oss', 'boo-energy' ); ?></h6>
 						<div class="footer-middle-social-share">
-							<?php if ( ! empty( get_theme_mod( 'boo_social_linkedin_link' ) ) ) : ?>
+							<?php if ( ! empty( get_theme_mod( 'boo_social_instagram_link' ) ) ) : ?>
 								<span>
 									<a target="_blank"
-										href="<?php echo esc_url( get_theme_mod( 'boo_social_linkedin_link' ) ); ?>">
-										<img src="<?php echo BOO_THEME_IMG_DIR . 'linkedin.svg'; ?>" alt="linkedin">
+										href="<?php echo esc_url( get_theme_mod( 'boo_social_instagram_link' ) ); ?>">
+										<img src="<?php echo BOO_THEME_IMG_DIR . 'instagram.svg'; ?>" alt="instagram">
 									</a>
 								</span>
 							<?php endif; ?>
@@ -100,10 +105,11 @@
 			wp_nav_menu(
 				array(
 					'theme_location' => 'menu-5',
-					'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
+					'menu_class'     => 'copy-right-menu d-flex boo-reset-ul ',
 				)
 			);
 			?>
 		</div>
 	</div>
 </footer>
+<!-- End Footer  -->
