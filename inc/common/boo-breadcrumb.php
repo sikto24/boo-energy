@@ -33,7 +33,7 @@ function boo_energy_breadcrumb_markup() {
 	}
 	?>
 	<section class="breadcrumb-area-wrapper section-gap <?php echo esc_attr( $single_blog_class ); ?>">
-		<div class="container-xxl">
+		<div class="container">
 			<div class="row">
 				<div class="col">
 					<div class="breadcrumb-area">

@@ -10,7 +10,9 @@
 
 /* === 01 Staer CORE CSS === */
 .container {
-	max-width: 1380px !important;
+	max-width: 1416px !important;
+	padding-left: 16px !important;
+	padding-right: 16px !important;
 }
 img {
 	max-width: 100%;
@@ -263,6 +265,20 @@ a.boo-btn:focus {
 	}
 	.footer-top-bottom-area-wrapper .footer-top-bottom-single-area {
 	flex-basis: 100%;
+	}
+
+	.footer-top-bottom-area-wrapper .boo-footer-widget-title {
+	transition: all 0.8s ease-in;
+	}
+
+	.footer-top-bottom-area-wrapper .boo-footer-widget-title {
+	padding-bottom: 0px;
+	}
+
+	.footer-top-bottom-area-wrapper
+	.footer-top-area-widget.menu-toggle-active
+	.boo-footer-widget-title {
+	padding-bottom: 16px;
 	}
 }
 

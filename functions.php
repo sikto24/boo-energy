@@ -1,4 +1,6 @@
 <?php
+
+use PHPCSExtra\Universal\Sniffs\UseStatements\KeywordSpacingSniff;
 /**
  * Boo Energy functions and definitions
  *
@@ -6,6 +8,7 @@
  *
  * @package Boo_Energy
  */
+
 
 if ( ! defined( '_S_VERSION' ) ) {
 	// Replace the version number of the theme on each release.

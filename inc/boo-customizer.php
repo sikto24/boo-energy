@@ -57,46 +57,32 @@ function boo_social_options( $wp_customize ) {
 		'boo_social_section',
 		array(
 			'title'       => esc_html__( 'Social Links', 'boo-energy' ),
-			'description' => esc_html__( 'Add social links for Boo Energy', 'boo-energy' ),
+			'description' => esc_html__( 'Add and reorder social links for Boo Energy', 'boo-energy' ),
 			'panel'       => 'boo_theme_panel',
 		)
 	);
 
-	// Instagram
-	$wp_customize->add_setting(
-		'boo_social_instagram_link',
-		array(
-			'default'   => '',
-			'transport' => 'postMessage',
-		)
-	);
+	$social_links = array( 'instagram', 'facebook' );
 
-	$wp_customize->add_control(
-		'boo_social_instagram_link',
-		array(
-			'label'   => esc_html__( 'Instagram URL', 'boo-energy' ),
-			'section' => 'boo_social_section',
-			'type'    => 'url',
-		)
-	);
+	foreach ( $social_links as $social ) {
+		$setting_id = 'boo_social_' . $social . '_link';
+		$wp_customize->add_setting(
+			$setting_id,
+			array(
+				'default'   => '',
+				'transport' => 'postMessage',
+			)
+		);
 
-	// Facebook
-	$wp_customize->add_setting(
-		'boo_social_facebook_link',
-		array(
-			'default'   => '',
-			'transport' => 'postMessage',
-		)
-	);
-
-	$wp_customize->add_control(
-		'boo_social_facebook_link',
-		array(
-			'label'   => esc_html__( 'Facebook URL', 'boo-energy' ),
-			'section' => 'boo_social_section',
-			'type'    => 'url',
-		)
-	);
+		$wp_customize->add_control(
+			$setting_id,
+			array(
+				'label'   => esc_html__( ucfirst( $social ) . ' URL', 'boo-energy' ),
+				'section' => 'boo_social_section',
+				'type'    => 'url',
+			)
+		);
+	}
 }
 
 // Footer Options
