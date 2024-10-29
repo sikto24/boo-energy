@@ -1,0 +1,23 @@
+.boo-slider-section ul.slick-dots {
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+}
+
+.boo-slider-section ul.slick-dots li {
+  height: 6px;
+  width: 6px;
+  background-color: var(--e-global-color-3335742);
+  display: inline-block;
+  border-radius: 50%;
+  transition: all 0.3s ease-in;
+}
+
+.boo-slider-section ul.slick-dots li button {
+  display: none !important;
+  font-size: 0px;
+}
+
+.boo-slider-section ul.slick-dots li.slick-active {
+  background-color: var(--e-global-color-primary);
+}
