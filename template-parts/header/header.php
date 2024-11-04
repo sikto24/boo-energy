@@ -8,7 +8,7 @@
 					wp_nav_menu(
 						array(
 							'theme_location' => 'menu-3',
-							'menu_class'     => 'top-bar-left-menu d-flex boo-reset-ul',
+							'menu_class' => 'top-bar-left-menu d-flex boo-reset-ul',
 						)
 					);
 					?>
@@ -21,7 +21,7 @@
 						wp_nav_menu(
 							array(
 								'theme_location' => 'menu-4',
-								'menu_class'     => 'd-flex justify-content-end boo-reset-ul',
+								'menu_class' => 'd-flex justify-content-end boo-reset-ul',
 							)
 						);
 						?>
@@ -36,16 +36,21 @@
 <!-- Start Main Header  -->
 <header class="header-area-wrapper">
 	<div class="container">
-		<div class="row">
-			<div class="col-lg-4">
-				<div class="boo-site-logo">
+		<div class="row align-items-center">
+			<div class="col-lg-2">
+				<div class="boo-site-logo ">
 					<?php echo boo_header_logo(); ?>
 				</div>
 			</div>
-			<div class="col-lg-8 d-flex align-items-center justify-content-end">
-				<nav class="main-menu-wrapper boo-main-menu ">
-					<?php boo_header_menu(); ?>
-				</nav>
+			<div class="col-lg-10">
+				<div class="header-area-right d-flex align-items-center justify-content-end">
+					<nav class="main-menu-wrapper boo-main-menu ">
+						<?php boo_header_menu(); ?>
+					</nav>
+					<div class="header-right-login-btn">
+						<a href="#"><?php echo esc_html__( 'Logga in', 'boo-energy' ); ?></a>
+					</div>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -104,9 +104,9 @@ function boo_energy_setup() {
 	add_theme_support(
 		'custom-logo',
 		array(
-			'height'      => 250,
-			'width'       => 250,
-			'flex-width'  => true,
+			'height' => 250,
+			'width' => 250,
+			'flex-width' => true,
 			'flex-height' => true,
 		)
 	);
@@ -191,6 +191,20 @@ require_once BOO_THEME_INC . 'boo-customizer.php';
  */
 require_once BOO_THEME_INC . '/api/boo-api.php';
 
+/**
+ * include Boo Energy CPT
+ */
+require_once BOO_THEME_INC . 'boo-ctp.php';
+
+/**
+ * include the custom walker
+ */
+require_once BOO_THEME_INC . 'class-wp-bootstrap-navwalker.php';
+
+/**
+ * include the Header Extend using ACF & navwalker
+ */
+require_once BOO_THEME_INC . 'boo-header-extend.php';
 
 // Register Elementor locations for both header and footer
 function boo_register_elementor_locations( $elementor_theme_manager ) {
@@ -198,3 +212,9 @@ function boo_register_elementor_locations( $elementor_theme_manager ) {
 	$elementor_theme_manager->register_location( 'footer' );
 }
 add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locations' );
+
+
+
+
+
+

@@ -1,75 +1,93 @@
-.boo-slider-section .slick-dots {
-	gap: 8px;
-	display: flex;
-	justify-content: center;
-	margin-top: 34px;
+.boo-slider-section .slick-dots,
+.recent-blog-loop .slick-dots {
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+  margin-top: 34px;
 }
 
-.boo-slider-section .slick-dots li {
-	height: 6px;
-	width: 6px;
-	background-color: var(--e-global-color-3335742);
-	display: inline-block;
-	border-radius: 50%;
-	transition: all 0.3s ease-in;
+.boo-slider-section .slick-dots li,
+.recent-blog-loop .slick-dots li {
+  height: 6px;
+  width: 6px;
+  background-color: var(--e-global-color-3335742);
+  display: inline-block;
+  border-radius: 50%;
+  transition: all 0.3s ease-in;
 }
 
-.boo-slider-section .slick-dots li button {
-	display: none !important;
-	font-size: 0px;
+.boo-slider-section .slick-dots li button,
+.recent-blog-loop .slick-dots li button {
+  display: none !important;
+  font-size: 0px;
 }
 
-.boo-slider-section .slick-dots li.slick-active {
-	background-color: var(--e-global-color-primary);
+.boo-slider-section .slick-dots li.slick-active,
+.recent-blog-loop .slick-dots li.slick-active {
+  background-color: var(--e-global-color-primary);
 }
 
-.boo-slider-section .slick-arrow {
-	position: absolute;
-	left: calc(50% - 85px);
-	right: auto;
-	bottom: -6px;
+.boo-slider-section .slick-arrow,
+.recent-blog-loop .slick-arrow {
+  position: absolute;
+  left: calc(50% - 85px);
+  right: auto;
+  bottom: -6px;
 }
 
-.boo-slider-section .slick-arrow.boo-slider-arrow-right {
-	left: auto;
-	right: calc(50% - 85px);
+.boo-slider-section .slick-arrow.boo-slider-arrow-right,
+.recent-blog-loop .slick-arrow.boo-slider-arrow-right {
+  left: auto;
+  right: calc(50% - 85px);
 }
 
-.boo-slider-section .slick-arrow svg path {
-	transition: all 0.3s ease-in;
+.boo-slider-section .slick-arrow svg path,
+.boo-slider-section .slick-arrow i,
+.recent-blog-loop .slick-arrow svg path,
+.recent-blog-loop .slick-arrow i {
+  transition: all 0.3s ease-in;
 }
-.boo-slider-section .slick-arrow:not(.slick-disabled) svg path {
-	fill: var(--e-global-color-primary);
+.boo-slider-section .slick-arrow:not(.slick-disabled) svg path,
+.boo-slider-section .slick-arrow:not(.slick-disabled) i,
+.recent-blog-loop .slick-arrow:not(.slick-disabled) svg path,
+.recent-blog-loop .slick-arrow:not(.slick-disabled) i {
+  fill: var(--e-global-color-primary);
 }
 
 .boo-slider-section .slick-list {
-	overflow: visible !important;
+  overflow: visible !important;
 }
 
-.boo-slider-section .slick-track > .slick-slide {
-	margin-right: 16px;
+.boo-slider-section .slick-track > .slick-slide,
+.recent-blog-loop .slick-track > .slick-slide {
+  margin-right: 16px;
 }
 
 /* Media Quries */
 @media screen and (max-width: 1350px) {
-	.boo-slider-section .single-section-slider {
-	flex-basis: 50%;
-	}
+  .boo-slider-section .single-section-slider {
+    flex-basis: 50%;
+  }
 }
 
 @media screen and (max-width: 1024px) {
-	.boo-slider-section .single-section-slider {
-	min-height: 201px;
-	}
+  .boo-slider-section .single-section-slider {
+    min-height: 204px;
+  }
 
-	.boo-slider-section .single-section-slider .elementor-heading-title {
-	font-family: var(--e-global-typography-10e4be9-font-family), Sans-serif !important;
-	font-size: var(--e-global-typography-10e4be9-font-size) !important;
-	font-weight: var(--e-global-typography-10e4be9-font-weight) !important;
-	text-transform: var(
-		--e-global-typography-10e4be9-text-transform
-	) !important;
-	font-style: var(--e-global-typography-10e4be9-font-style) !important;
-	line-height: var(--e-global-typography-10e4be9-line-height) !important;
-	}
+  .boo-slider-section:not(.why-we-think-foretag).single-section-slider
+    .elementor-heading-title {
+    font-family: var(--e-global-typography-10e4be9-font-family), Sans-serif !important;
+    font-size: var(--e-global-typography-10e4be9-font-size) !important;
+    font-weight: var(--e-global-typography-10e4be9-font-weight) !important;
+    text-transform: var(
+      --e-global-typography-10e4be9-text-transform
+    ) !important;
+    font-style: var(--e-global-typography-10e4be9-font-style) !important;
+    line-height: var(--e-global-typography-10e4be9-line-height) !important;
+  }
+
+  .boo-slider-section .single-section-slider .elementor-icon i {
+    font-size: 32px;
+  }
 }

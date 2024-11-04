@@ -14,10 +14,10 @@ function boo_energy_breadcrumb_markup() {
 
 	if ( is_single() && get_post_type() == 'post' ) {
 		$single_blog_calendar = get_the_time( get_option( 'date_format' ) );
-		$single_blog_class    = 'single-blog-style';
+		$single_blog_class = 'single-blog-style';
 	} else {
 		$single_blog_calendar = '';
-		$single_blog_class    = '';
+		$single_blog_class = '';
 	}
 
 	if ( is_single() ) {
@@ -47,7 +47,7 @@ function boo_energy_breadcrumb_markup() {
 }
 // Conditionally add the breadcrumb markup for pages other than the front page
 function add_breadcrumb_for_non_front_page() {
-	if ( ! is_front_page() ) {
+	if ( ! is_front_page() && ! is_page( 'foretag' ) && 'elementor_header_footer' !== get_page_template_slug() ) {
 		add_action( 'boo_before_main_content', 'boo_energy_breadcrumb_markup' );
 	}
 }
