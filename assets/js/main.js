@@ -6,6 +6,7 @@
 03. Recent Blog Slider
 04. Find Area Title 
 05. Notification Count
+06. Mobile Menu
 
  ****************************************************/
 (function ($) {
@@ -150,11 +151,40 @@
     }
   }
 
+  // 06. Mobile Menu
+  function booMobileMenu() {
+    $('.boo-hamburger-menu').on('click', function () {
+      $(this).toggleClass('boo-hamburger-menu-active');
+      $('.boo-mobile-menu-wrapper').toggleClass('boo-menu-active');
+      $('body').toggleClass('menu-open');
+    });
+    if ($(window).width() < 980) {
+      $('.main-menu-wrapper li.menu-item-has-children > .boo-mega-sub-menu li')
+        .addClass('back-menu-item')
+        .find('a')
+        .addClass('go-back')
+        .attr('href', 'javascript:void(0)');
+
+      $('.main-menu-wrapper li.menu-item-has-children').on(
+        'click',
+        function () {
+          $(this).children('.boo-mega-sub-menu').show();
+          $(this).children('.boo-mega-sub-menu').addClass('sub-menu-active');
+        }
+      );
+      $('body').on('click', '.back-menu-item', function () {
+        $(this).parent().hide();
+        $(this).parent().removeClass('sub-menu-active');
+      });
+    }
+  }
+
   $(document).ready(function () {
     initializeFooterToggle();
     booSliderSection();
     recentBlogSlider();
     findAreaTitle();
     booTopbarNotificationCount();
+    booMobileMenu();
   });
 })(jQuery);

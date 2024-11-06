@@ -60,6 +60,7 @@ function boo_energy_setup() {
 			'menu-3' => esc_html__( 'Topbar Left', 'boo-energy' ),
 			'menu-4' => esc_html__( 'Topbar Right', 'boo-energy' ),
 			'menu-5' => esc_html__( 'Footer Copyright', 'boo-energy' ),
+			'menu-6' => esc_html__( 'Footer Test Mobile Menu', 'boo-energy' ),
 		)
 	);
 
@@ -217,4 +218,11 @@ add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locati
 
 
 
+function header_style() {
+	wp_enqueue_style( "demo", "//mmenujs.com/demo/css/demo.css", array(), null, 'all' );
+	wp_enqueue_style( "mmenu", "//mmenujs.com/js/mmenu/mmenu.css", array(), null, 'all' );
 
+	wp_enqueue_script( 'mmenu', '//mmenujs.com/js/mmenu/mmenu.js', array( 'jquery' ), null, 'all' );
+
+}
+add_action( "wp_enqueue_scripts", "header_style" );

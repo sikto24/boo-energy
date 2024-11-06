@@ -104,20 +104,6 @@
   z-index: 99;
 }
 
-.header-area-wrapper ul li ul li.menu-item-has-children .boo-recommend {
-  font-family: var(--e-global-typography-32e2797-font-family), Sans-serif;
-  font-size: var(--e-global-typography-32e2797-font-size);
-  font-weight: var(--e-global-typography-32e2797-font-weight);
-  text-transform: var(--e-global-typography-32e2797-text-transform);
-  font-style: var(--e-global-typography-32e2797-font-style);
-  line-height: var(--e-global-typography-32e2797-line-height);
-  background: var(--e-global-color-accent);
-  padding: 6px;
-  border-radius: 8px;
-  margin-left: 16px;
-  display: inline-block;
-}
-
 .main-menu-wrapper
   li.menu-item-has-children
   > .boo-mega-sub-menu

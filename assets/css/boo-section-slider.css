@@ -70,12 +70,13 @@
   }
 }
 
-@media screen and (max-width: 1024px) {
+@media screen and (max-width: 1200px) {
   .boo-slider-section .single-section-slider {
     min-height: 204px;
   }
 
-  .boo-slider-section:not(.why-we-think-foretag).single-section-slider
+  .boo-slider-section:not(.why-we-think-foretag)
+    .single-section-slider
     .elementor-heading-title {
     font-family: var(--e-global-typography-10e4be9-font-family), Sans-serif !important;
     font-size: var(--e-global-typography-10e4be9-font-size) !important;

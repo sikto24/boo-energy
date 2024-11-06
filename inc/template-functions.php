@@ -58,6 +58,7 @@ function boo_header_menu() {
 					'menu_class' => 'primary-menu d-flex boo-reset-ul',
 					'container' => 'nav',
 					'container_class' => 'main-menu-wrapper boo-main-menu',
+					'container_id' => 'boo-main-menu-wrapper',
 					'walker' => new WP_Bootstrap_Navwalker_Custom(),
 				)
 			);
@@ -65,6 +66,25 @@ function boo_header_menu() {
 	}
 }
 
+// Boo Energy Top Left Menu
+function booTopMenuLeft() {
+	wp_nav_menu(
+		array(
+			'theme_location' => 'menu-3',
+			'menu_class' => 'top-bar-left-menu d-flex boo-reset-ul',
+		)
+	);
+}
+
+// Boo Energy Top Right Menu
+function booTopMenuRight() {
+	wp_nav_menu(
+		array(
+			'theme_location' => 'menu-4',
+			'menu_class' => 'd-flex justify-content-end boo-reset-ul',
+		)
+	);
+}
 
 // Assign Header
 
