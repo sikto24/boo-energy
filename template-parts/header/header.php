@@ -38,6 +38,9 @@
 					</div>
 				</div>
 				<div class="boo-mobile-header-menu d-flex align-items-center justify-content-end d-block d-lg-none">
+					<div class="boo-hamburger-menu-search">
+						<span class="top-bar-search-icon">Sök</span>
+					</div>
 					<div class="boo-hamburger-menu">
 						<span></span>
 					</div>

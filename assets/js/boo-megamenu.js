@@ -1,107 +1,97 @@
 document.addEventListener('DOMContentLoaded', function () {
-  // Function to adjust the heights of mega menus
-  function adjustMegaMenuHeights() {
-    const mainMegaMenus = document.querySelectorAll('.boo-mega-sub-menu');
-
-    mainMegaMenus.forEach(mainMegaMenu => {
-      const subMegaMenus = mainMegaMenu.querySelectorAll(
-        '.boo-mega-sub-menu-second'
-      );
-
-      // Calculate heights
-      const mainMenuHeight = mainMegaMenu.clientHeight;
-
-      subMegaMenus.forEach(subMegaMenu => {
-        const subMenuHeight = subMegaMenu.clientHeight;
-
-        // Set min-height for main menu
-        if (mainMenuHeight < subMenuHeight) {
-          mainMegaMenu.style.minHeight = `${subMenuHeight + 80}px`;
-          console.log(
-            `Adjusted main menu minHeight: ${mainMegaMenu.style.minHeight}`
-          );
-        } else if (mainMenuHeight > subMenuHeight) {
-          subMegaMenu.style.minHeight = `${mainMenuHeight - 80}px`;
-          console.log(
-            `Adjusted sub menu minHeight: ${subMegaMenu.style.minHeight}`
-          );
-        }
-
-        // Check if sub-mega-menu exceeds max height
-        const maxHeight = 500; // Define your max height here
-        if (subMenuHeight > maxHeight) {
-          subMegaMenu.style.height = `${maxHeight}px`;
-          console.log(
-            `Sub menu exceeded max height. Set height to: ${maxHeight}px`
-          );
-        }
-      });
-    });
-  }
-
-  // Call the function to adjust heights
-  adjustMegaMenuHeights();
-
-  // Select all primary menu items with children
-  const menuItemsWithChildren = document.querySelectorAll(
-    '.primary-menu > li.menu-item-has-children'
+  // Handle mouseenter and mouseleave events for menu items
+  const menuItems = document.querySelectorAll(
+    '.main-menu-wrapper > ul > li.menu-item-has-children'
   );
+  menuItems.forEach(item => {
+    let timer;
 
-  menuItemsWithChildren.forEach(menuItem => {
-    let activeItem = null;
-    let timeoutId;
-
-    const subMenuItems = menuItem.querySelectorAll(
-      '.boo-mega-sub-menu li.menu-item-has-children'
-    );
-
-    // Add hover event listeners for each submenu item with children
-    subMenuItems.forEach(item => {
-      item.addEventListener('mouseenter', () => {
-        if (activeItem && activeItem !== item) {
-          activeItem.classList.remove('boo-sub-menu-active');
-        }
-        item.classList.add('boo-sub-menu-active');
-        activeItem = item;
-      });
+    // Mouseenter event to add the class immediately
+    item.addEventListener('mouseenter', function () {
+      clearTimeout(timer); // Clear any pending timer to avoid unwanted removal
+      item.classList.add('mega-menu-toggle-on');
     });
 
-    function addClasses() {
-      clearTimeout(timeoutId);
-      menuItem.classList.add('mega-menu-toggle-on');
+    // Mouseleave event on both the parent `li` and its child `ul`
+    item.addEventListener('mouseleave', function () {
+      timer = setTimeout(() => {
+        item.classList.remove('mega-menu-toggle-on');
+      }, 300); // Delay to remove the class after mouse leaves
+    });
 
-      const secondLi = menuItem.querySelector(
-        '.boo-mega-sub-menu li.menu-item-has-children:nth-child(2)'
-      );
-      if (secondLi) {
-        secondLi.classList.add('boo-sub-menu-active');
-      }
+    // Add a listener to the submenu to keep the class while hovering over it
+    const submenu = item.querySelector('ul');
+    if (submenu) {
+      submenu.addEventListener('mouseenter', function () {
+        clearTimeout(timer); // Keep the class when hovering over the submenu
+        item.classList.add('mega-menu-toggle-on');
+      });
+
+      submenu.addEventListener('mouseleave', function () {
+        timer = setTimeout(() => {
+          item.classList.remove('mega-menu-toggle-on');
+        }, 400); // Delay to remove the class when leaving submenu
+      });
+    }
+  });
+
+  // Handle the left and right column splitting
+  const megaMenus = document.querySelectorAll('.boo-mega-sub-menu');
+  megaMenus.forEach(function (megaMenu) {
+    const leftColumn = document.createElement('div');
+    leftColumn.classList.add('boo-menu-left');
+
+    const rightColumn = document.createElement('div');
+    rightColumn.classList.add('boo-menu-right');
+
+    const firstItem = megaMenu.querySelector('.menu-item');
+    if (firstItem) {
+      leftColumn.appendChild(firstItem);
     }
 
-    function removeClasses() {
-      timeoutId = setTimeout(() => {
-        menuItem.classList.remove('mega-menu-toggle-on');
+    megaMenu.querySelectorAll('.menu-item').forEach(function (item) {
+      if (item.querySelector('p')) {
+        leftColumn.appendChild(item);
+      } else {
+        rightColumn.appendChild(item);
+      }
+    });
 
-        const secondLi = menuItem.querySelector(
-          '.boo-mega-sub-menu li.menu-item-has-children:nth-child(2)'
-        );
-        if (secondLi) {
-          secondLi.classList.remove('boo-sub-menu-active');
-        }
+    megaMenu.innerHTML = '';
+    megaMenu.appendChild(leftColumn);
+    megaMenu.appendChild(rightColumn);
 
-        if (activeItem) {
-          activeItem.classList.remove('boo-sub-menu-active');
-          activeItem = null;
+    // Group items in the right column based on "boo-sub-menu-broken-wrapper"
+    const rightItems = rightColumn.querySelectorAll('li');
+    let groupedItems = [];
+    let currentGroup = [];
+
+    rightItems.forEach(function (item) {
+      if (item.classList.contains('boo-sub-menu-broken-wrapper')) {
+        if (currentGroup.length > 0) {
+          groupedItems.push(currentGroup);
         }
-      }, 300);
+        currentGroup = [item];
+      } else {
+        currentGroup.push(item);
+      }
+    });
+
+    if (currentGroup.length > 0) {
+      groupedItems.push(currentGroup);
     }
 
-    // Attach event listeners to each main menu item with children
-    menuItem.addEventListener('mouseenter', addClasses);
-    menuItem.addEventListener('mouseleave', function (event) {
-      if (!menuItem.contains(event.relatedTarget)) {
-        removeClasses();
-      }
+    rightColumn.innerHTML = ''; // Clear the right column before appending grouped items
+
+    groupedItems.forEach(function (group) {
+      const groupDiv = document.createElement('div');
+      groupDiv.classList.add('boo-mega-sub-group'); // Add the 'menu-group' class to each group
+
+      group.forEach(function (item) {
+        groupDiv.appendChild(item);
+      });
+
+      rightColumn.appendChild(groupDiv);
     });
   });
 });

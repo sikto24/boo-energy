@@ -6,31 +6,37 @@
  *
  * @package Boo_Energy
  */
+$boo_attached_video = get_field( 'attached_video' );
+$boo_studion = get_field( 'boo_studion' );
+$video_url = get_field( 'video_url' );
+if ( $boo_studion ) {
+	if ( is_array( $boo_studion ) ) {
+		$studion_post_id = $boo_studion[0]->ID;
+	} else {
+		$studion_post_id = $boo_studion->ID;
+	}
 
+	$boo_video_url = get_field( 'video_url', $studion_post_id );
+}
+if ( $boo_studion ) {
+	$boo_studion_post_id = $boo_studion->ID;
+	$boo_studion_post_thumbnail = get_the_post_thumbnail_url( $boo_studion_post_id );
+}
 ?>
+
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
 		<?php
-		if ( is_singular() ) :
-			the_title( '<h1 class="entry-title">', '</h1>' );
-		else :
-			the_title( '<h2 class="entry-title"><a href="' . esc_url( get_permalink() ) . '" rel="bookmark">', '</a></h2>' );
-		endif;
-
-		if ( 'post' === get_post_type() ) :
+		if ( ( in_array( get_post_type(), [ 'post', 'skolan' ] ) ) ) :
 			?>
 			<div class="entry-meta">
 				<?php
-				boo_energy_posted_on();
-				boo_energy_posted_by();
+				echo esc_html__( 'Publicerad: ', 'boo-energy' ) . get_the_time( get_option( 'date_format' ) );
 				?>
 			</div><!-- .entry-meta -->
 		<?php endif; ?>
-	</header><!-- .entry-header -->
-
-	<?php boo_energy_post_thumbnail(); ?>
-
+	</header>
 	<div class="entry-content">
 		<?php
 		the_content(
@@ -51,13 +57,34 @@
 		wp_link_pages(
 			array(
 				'before' => '<div class="page-links">' . esc_html__( 'Pages:', 'boo-energy' ),
-				'after'  => '</div>',
+				'after' => '</div>',
 			)
 		);
 		?>
 	</div><!-- .entry-content -->
+	<?php if ( true === $boo_attached_video ) : ?>
+		<div class="post-video-wrapper">
+			<div class="post-video-thumbnail ratio ratio-16x9 mfp-iframe boo-video-play-btn">
+				<img src="<?php echo esc_url( $boo_studion_post_thumbnail ) ?>"
+					alt="<?php echo esc_attr( get_the_title() ); ?>">
+			</div>
+			<h5 class="post-video-title">
+				<?php echo esc_html__( $boo_studion->post_title, 'boo-energy' ); ?>
+			</h5>
+			<p class="post-video-details">
+				<?php echo esc_html__( $boo_studion->post_content, 'boo-energy' ); ?>
+			</p>
+			<a href="<?php echo esc_attr( $boo_video_url ); ?>" class="post-video-url boo-video-play-btn mfp-iframe">
+				<?php echo esc_html__( 'Spela video', 'boo-energy' ); ?>
+			</a>
+		</div>
+	<?php endif; ?>
 
-	<footer class="entry-footer">
-		<?php boo_energy_entry_footer(); ?>
-	</footer><!-- .entry-footer -->
 </article><!-- #post-<?php the_ID(); ?> -->
+
+<?php
+
+$thumbnail_id = get_post_thumbnail_id( $post->ID );
+$thumbnail_url = wp_get_attachment_image_url( $thumbnail_id, 'thumbnail' );
+
+

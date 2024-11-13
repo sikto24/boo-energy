@@ -9,17 +9,15 @@
 
 get_header();
 
-$blog_column = is_active_sidebar( 'blog-sidebar' ) ? 8 : 12;
 
 ?>
 
-<section class="boo-postbox-area">
+<section class="boo-post-area-wrapper">
 	<div class="container">
-		<div class="row">
-			<div
-				class="col-xxl-<?php echo esc_attr( $blog_column ); ?> col-xl-<?php echo esc_attr( $blog_column ); ?> col-lg-<?php echo esc_attr( $blog_column ); ?>">
+		<div class="row justify-content-center">
+			<div class="col-xl-7 col-lg-8 col-md-12 col-12 ">
 				<div class="boo-postbox-wrapper">
-					<div class="boo_postbox__wrapper blog__wrapper postbox__details">
+					<div class="boo_postbox__wrapper boo-single-post blog__wrapper postbox__details">
 						<?php
 						while ( have_posts() ) :
 							the_post();
@@ -69,12 +67,12 @@ $blog_column = is_active_sidebar( 'blog-sidebar' ) ? 8 : 12;
 							<?php
 
 							// get_template_part( 'template-parts/biography' );
-
+						
 							// If comments are open or we have at least one comment, load up the comment template.
-							if ( comments_open() || get_comments_number() ) :
-								comments_template();
-							endif;
-
+							// if ( comments_open() || get_comments_number() ) :
+							// 	comments_template();
+							// endif;
+						
 						endwhile; // End of the loop.
 						?>
 					</div>

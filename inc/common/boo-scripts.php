@@ -22,6 +22,12 @@ function boo_theme_scripts() {
 	}
 	wp_enqueue_style( 'boo-style', get_stylesheet_uri() );
 
+	// CSS based on Section / Page
+	if ( is_single() ) {
+		wp_enqueue_style( 'boo-single-post', BOO_THEME_CSS_DIR . 'boo-single-post.css', null, '1.0.0', 'all' );
+		wp_enqueue_style( 'magnific-popup', BOO_THEME_CSS_DIR . 'magnific-popup.min.css', null, '1.1.0', 'all' );
+	}
+
 	// all js
 	wp_enqueue_script( 'bootstrap', BOO_THEME_JS_DIR . 'bootstrap.min.js', array( 'jquery' ), '5.0', true );
 	if ( ! wp_is_mobile() ) {
@@ -30,8 +36,13 @@ function boo_theme_scripts() {
 	}
 
 	wp_enqueue_script( 'boo-slick-slider', BOO_THEME_JS_DIR . 'slick.min.js', array( 'jquery' ), '1.9.0', true );
-
 	wp_enqueue_script( 'boo-main', BOO_THEME_JS_DIR . 'main.js', array( 'jquery' ), false, true );
+
+
+	// JS based on Section / Page
+	if ( is_single() ) {
+		wp_enqueue_script( 'magnific-popup', BOO_THEME_JS_DIR . 'jquery.magnific-popup.min.js', array( 'jquery' ), '1.1.0', true );
+	}
 }
 add_action( 'wp_enqueue_scripts', 'boo_theme_scripts' );
 

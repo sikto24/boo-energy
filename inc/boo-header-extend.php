@@ -2,18 +2,30 @@
 if ( class_exists( "ACF" ) ) {
 	function boo_wp_nav_menu_objects( $items, $args ) {
 		foreach ( $items as &$item ) {
+			// Get custom fields using ACF
 			$recommend = get_field( 'recommend', $item );
+			$menu_recommend_text = get_field( 'menu_recommend_text', $item );
+			$sub_menu_br = get_field( 'sub_menu_layout_br', $item );
+
+			// If 'recommend' field is set, append the recommendation text and add class to <li>
 			if ( $recommend ) {
-				$item->title .= '<span class="boo-recommend">Vi rekommenderar</span>';
+				$item->title .= '<span class="boo-recommend">' . $menu_recommend_text . '</span>';
+				// Add 'hello' class to the <li> element
+
 			}
+
+			if ( $sub_menu_br ) {
+				$item->classes[] = 'boo-sub-menu-broken-wrapper';
+			}
+
 		}
-		// return
 		return $items;
 	}
+
+	// Hook into 'wp_nav_menu_objects' to modify menu items
 	add_filter( 'wp_nav_menu_objects', 'boo_wp_nav_menu_objects', 10, 2 );
+
 }
-
-
 /**
  * Summary of WP_Bootstrap_Navwalker_Custom
  */

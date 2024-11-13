@@ -7,6 +7,8 @@
 04. Find Area Title 
 05. Notification Count
 06. Mobile Menu
+07. Search Bar
+08. Magnific PopUp
 
  ****************************************************/
 (function ($) {
@@ -179,6 +181,40 @@
     }
   }
 
+  // 07. Search Bar
+  function searchBar() {
+    $('.top-bar-search-icon').on('click', function () {
+      $('.boo-search-bar-area-wrapper').addClass('search-opened');
+      $('body').addClass('menu-open');
+    });
+
+    $('.search-close-btn').on('click', function () {
+      $('.boo-search-bar-area-wrapper').removeClass('search-opened');
+      $('body').removeClass('menu-open');
+    });
+  }
+
+  // 08. magnific popup
+  function magnificpopup() {
+    $('.boo-video-play-btn').magnificPopup({
+      type: 'iframe',
+      iframe: {
+        patterns: {
+          youtube: {
+            index: 'youtube.com/',
+            id: 'v=',
+            src: 'https://www.youtube.com/embed/%id%?autoplay=1&rel=0'
+          },
+          vimeo: {
+            index: 'vimeo.com/',
+            id: '/',
+            src: 'https://player.vimeo.com/video/%id%?autoplay=1&title=0&byline=0&portrait=0'
+          }
+        }
+      }
+    });
+  }
+
   $(document).ready(function () {
     initializeFooterToggle();
     booSliderSection();
@@ -186,5 +222,7 @@
     findAreaTitle();
     booTopbarNotificationCount();
     booMobileMenu();
+    searchBar();
+    magnificpopup();
   });
 })(jQuery);
