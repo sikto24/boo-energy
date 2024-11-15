@@ -22,8 +22,8 @@ if ( $boo_studion ) {
 	$boo_studion_post_id = $boo_studion->ID;
 	$boo_studion_post_thumbnail = get_the_post_thumbnail_url( $boo_studion_post_id );
 }
-?>
 
+?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
 	<header class="entry-header">
@@ -80,11 +80,4 @@ if ( $boo_studion ) {
 		</div>
 	<?php endif; ?>
 
-</article><!-- #post-<?php the_ID(); ?> -->
-
-<?php
-
-$thumbnail_id = get_post_thumbnail_id( $post->ID );
-$thumbnail_url = wp_get_attachment_image_url( $thumbnail_id, 'thumbnail' );
-
-
+</article>

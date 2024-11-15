@@ -213,3 +213,4 @@ function boo_register_elementor_locations( $elementor_theme_manager ) {
 }
 add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locations' );
 
+

@@ -215,3 +215,5 @@ function boo_get_notification_count() {
 	wp_add_inline_script( 'boo-main', $localization_script, 'after' );
 }
 add_action( 'wp_footer', 'boo_get_notification_count' );
+
+

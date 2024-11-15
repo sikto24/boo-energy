@@ -78,13 +78,6 @@ get_header();
 					</div>
 				</div>
 			</div>
-			<?php if ( is_active_sidebar( 'blog-sidebar' ) ) : ?>
-				<div class="col-xxl-4 col-xl-4 col-lg-4">
-					<div class="boo-sidebar-wrapper">
-						<?php get_sidebar(); ?>
-					</div>
-				</div>
-			<?php endif; ?>
 		</div>
 	</div>
 </section>

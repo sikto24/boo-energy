@@ -73,12 +73,14 @@ function boo_skolan_post_type() {
 		"description" => "Add Skolan Here",
 		"public" => true,
 		"publicly_queryable" => true,
+		'has_archive' => true,
 		"show_ui" => true,
 		"show_in_menu" => "boo-main-menu",
 		"hierarchical" => false,
 		"can_export" => false,
 		"supports" => [ "title", "editor", "thumbnail", "revisions" ],
-		"taxonomies" => [ "post_tag" ],
+		'taxonomies' => array( 'category', 'post_tag' ),
+
 	];
 	register_post_type( "skolan", $args );
 }
