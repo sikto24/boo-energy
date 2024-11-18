@@ -23,6 +23,18 @@ if ( $boo_studion ) {
 	$boo_studion_post_thumbnail = get_the_post_thumbnail_url( $boo_studion_post_id );
 }
 
+// Inner Section Linked For Posts
+$boo_post_link_a_post = ( 'true' == get_field( 'link_a_post' ) ) ? get_field( 'link_a_post' ) : false;
+$boo_link_post_with_texteditor = get_field( 'link_post_with_texteditor' );
+$boo_link_post_one = get_field( 'link_post_one' );
+$boo_link_post_two = get_field( 'link_post_two' );
+$link_post_heading = get_field( 'link_post_heading' );
+$link_post_textarea = get_field( 'link_post_textarea' );
+
+if ( $boo_link_post_one ) {
+	$boo_link_post_one_id = $boo_link_post_one->ID;
+	$boo_link_post_one_thumbnail = get_the_post_thumbnail_url( $boo_link_post_one_id );
+}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -80,4 +92,32 @@ if ( $boo_studion ) {
 		</div>
 	<?php endif; ?>
 
+	<?php if ( true === $boo_post_link_a_post ) : ?>
+		<div class="single-inner-linked-post-area-wrapper">
+			<div class="single-inner-linked-post-thumbnail">
+				<img src="<?php echo $boo_link_post_one_thumbnail; ?>"
+					alt="<?php echo esc_html__( $boo_link_post_one->post_title, 'boo-energy' ); ?>">
+			</div>
+			<div class="single-inner-linked-post-content">
+				<?php if ( has_tag() ) : ?>
+					<div class="boo-tag">
+						<h5>Tag</h5>
+					</div>
+				<?php endif; ?>
+				<div class="single-inner-linked-post-title">
+					<?php echo esc_html__( $boo_link_post_one->post_title, 'boo-energy' ); ?>
+				</div>
+				<div class="single-inner-linked-post-content">
+					<?php echo wp_trim_words( esc_html__( $boo_link_post_one->post_content, 'boo-energy' ), 30 ); ?>
+				</div>
+				<div class="single-inner-linked-post-btn">
+					<a href="" class="btn">Läs mer om laddbox</a>
+				</div>
+			</div>
+		</div>
+	<?php endif; ?>
+
+	<pre>
+		<!-- <?php echo var_dump( $boo_link_post_one ); ?> -->
+	</pre>
 </article>

@@ -214,3 +214,37 @@ function boo_register_elementor_locations( $elementor_theme_manager ) {
 add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locations' );
 
 
+function filter_posts_by_category() {
+	// Check if category parameter is set
+	if ( isset( $_POST['category_slug'] ) ) {
+		$category_slug = sanitize_text_field( $_POST['category_slug'] );
+
+		// Set up the query arguments
+		$args = array(
+			'post_type' => 'post',
+			'posts_per_page' => 5,
+			'category_name' => $category_slug,
+		);
+
+		// Custom query for posts
+		$query = new WP_Query( $args );
+
+		// Check if there are posts
+		if ( $query->have_posts() ) :
+			while ( $query->have_posts() ) :
+				$query->the_post();
+				// Use the existing template part for each post
+				get_template_part( 'template-parts/blog/content-blog' );
+			endwhile;
+			wp_reset_postdata();
+		else :
+			echo '<p>' . esc_html__( 'No posts found', 'boo-energy' ) . '</p>';
+		endif;
+	}
+
+	// End the script with wp_die to handle AJAX request
+	wp_die();
+}
+add_action( 'wp_ajax_filter_posts', 'filter_posts_by_category' );
+add_action( 'wp_ajax_nopriv_filter_posts', 'filter_posts_by_category' );
+

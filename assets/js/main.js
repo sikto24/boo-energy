@@ -9,6 +9,7 @@
 06. Mobile Menu
 07. Search Bar
 08. Magnific PopUp
+09. Blog Inner Section Slider
 
  ****************************************************/
 (function ($) {
@@ -17,7 +18,6 @@
   let arrowLeftSVG = `<span class="boo-slider-arrow-left"><svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M9.12 18.296a.426.426 0 0 0 0-.6L1.445 10.02a1 1 0 0 1-.215-.32h20.345a.425.425 0 1 0 0-.85H1.225c.05-.115.12-.225.215-.32L9.115.856a.426.426 0 0 0 0-.6.426.426 0 0 0-.6 0L.84 7.93a1.91 1.91 0 0 0 0 2.7l7.675 7.675a.426.426 0 0 0 .6 0" fill="#E2DAD6"/></svg></span>`;
   let arrowRightSVG = `<span class="boo-slider-arrow-right"><svg width="22" height="19" viewBox="0 0 22 19" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12.88.626a.426.426 0 0 0 0 .6L20.555 8.9c.095.095.165.205.215.32H.425a.425.425 0 1 0 0 .85h20.35a1 1 0 0 1-.215.32l-7.675 7.675a.426.426 0 0 0 0 .6.426.426 0 0 0 .6 0l7.675-7.675a1.91 1.91 0 0 0 0-2.7L13.485.616a.426.426 0 0 0-.6 0" fill="#E2DAD6"/></svg></span>`;
 
-  let sliderInitialized = false;
   let windowWidth = window.innerWidth;
 
   // 01. Toggle For Footer
@@ -44,7 +44,7 @@
   }
   // 02. Section Slider
   function booSliderSection() {
-    if (windowWidth < 1200 && !sliderInitialized) {
+    if (windowWidth < 1200) {
       $('.boo-slider-section').slick({
         slidesToShow: 3,
         slidesToScroll: 1,
@@ -77,10 +77,6 @@
           }
         ]
       });
-      sliderInitialized = true;
-    } else if (windowWidth >= 1200 && sliderInitialized) {
-      $('.boo-slider-section').slick('unslick');
-      sliderInitialized = false;
     }
   }
   // 03. Recent Blog Slider
@@ -215,6 +211,22 @@
     });
   }
 
+  // 09. Blog Inner Section Slider
+  function booBlogSectionSlider() {
+    if (windowWidth <= 767) {
+      $('#boo-posts-inner-section').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        autoplaySpeed: 2000,
+        dots: true,
+        arrows: false,
+        infinite: false,
+        lazyLoad: 'ondemand'
+      });
+    }
+  }
+
   $(document).ready(function () {
     initializeFooterToggle();
     booSliderSection();
@@ -224,5 +236,6 @@
     booMobileMenu();
     searchBar();
     magnificpopup();
+    booBlogSectionSlider();
   });
 })(jQuery);

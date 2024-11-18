@@ -11,6 +11,31 @@
  ****************************************************/
 
 /* === 01 Staer CORE CSS === */
+.slick-dots {
+  list-style: none;
+  display: inline-flex;
+  justify-content: center;
+  width: 100%;
+  gap: 8px;
+}
+
+.slick-dots li button {
+  font-size: 0px;
+  display: none;
+}
+
+.slick-dots li {
+  height: 6px;
+  width: 6px;
+  background-color: var(--e-global-color-3335742);
+  display: inline-flex;
+  border-radius: 50%;
+  transition: all 0.3s ease-in;
+}
+
+.slick-dots li.slick-active {
+  background-color: var(--e-global-color-primary);
+}
 @media screen and (min-width: 1025px) and (max-width: 1400px) {
   html body .section_px {
     padding-left: 16px !important;

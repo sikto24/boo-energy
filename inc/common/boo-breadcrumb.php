@@ -78,3 +78,34 @@ function add_breadcrumb_for_non_front_page() {
 	}
 }
 add_action( 'wp', 'add_breadcrumb_for_non_front_page' );
+
+function boo_search_mockup() {
+	?>
+
+
+	<div class="boo-search-bar-area-wrapper">
+		<div class="row boo-search-bar-top">
+			<div class="col-md-8 col-12">
+				<div class="search-bar-top-left">
+					<h6>Vad letar du efter?</h6>
+				</div>
+			</div>
+			<div class="col-md-4 col-12">
+				<div class="search-bar-top-right justify-content-end d-flex">
+					<span class="search-close-btn">Stäng X</span>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col">
+				<div class="boo-search-bar">
+					<?php get_search_form(); ?>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	<?php
+}
+add_action( 'boo_before_main_content', 'boo_search_mockup' );
