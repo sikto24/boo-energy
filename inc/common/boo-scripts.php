@@ -16,18 +16,18 @@ function boo_theme_scripts() {
 	if ( ! wp_is_mobile() ) {
 		wp_enqueue_style( 'boo-megamenu', BOO_THEME_CSS_DIR . 'boo-megamenu.css', null, null, 'all' );
 	}
-	if ( is_front_page() || is_page( 'foretag' ) || is_home() ) {
+	if ( is_front_page() || is_page( 'foretag' ) || is_home() || is_single() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_style( 'boo-slick-slider', BOO_THEME_CSS_DIR . 'slick.min.css', null, '1.9.0', 'all' );
 		wp_enqueue_style( 'boo-section-slider', BOO_THEME_CSS_DIR . 'boo-section-slider.css', array( 'boo-slick-slider' ), '1.0.0', 'all' );
 	}
 	wp_enqueue_style( 'boo-style', get_stylesheet_uri() );
 
 	// CSS based on Section / Page
-	if ( is_single() ) {
+	if ( is_single() || is_home() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_style( 'boo-single-post', BOO_THEME_CSS_DIR . 'boo-single-post.css', null, '1.0.0', 'all' );
 		wp_enqueue_style( 'magnific-popup', BOO_THEME_CSS_DIR . 'magnific-popup.min.css', null, '1.1.0', 'all' );
 	}
-	if ( is_home() && ! is_front_page() || is_single() ) {
+	if ( is_home() && ! is_front_page() || is_single() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_style( 'boo-blog-css', BOO_THEME_CSS_DIR . 'boo-blog-post.css', null, '1.0.0', 'all' );
 	}
 
@@ -46,7 +46,7 @@ function boo_theme_scripts() {
 	// JS based on Section / Page
 
 
-	if ( is_home() && ! is_front_page() ) {
+	if ( is_home() && ! is_front_page() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_script( 'boo-blog', BOO_THEME_JS_DIR . 'boo-blog-ajax.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'boo-blog', 'boo_blog_ajax', array(
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
@@ -54,18 +54,17 @@ function boo_theme_scripts() {
 			'nonce' => wp_create_nonce( 'load_more_posts_nonce' ),
 		) );
 
+		wp_enqueue_script( 'boo-blog-posts', BOO_THEME_JS_DIR . 'boo-blog-posts.js', array( 'jquery' ), null, true );
+		wp_localize_script( 'boo-blog-posts', 'boo_posts_ajax_params', array(
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'blogPosts' )
+
+		) );
+
 	}
 
 }
 add_action( 'wp_enqueue_scripts', 'boo_theme_scripts' );
-
-function enqueue_custom_ajax_scripts() {
-	wp_enqueue_script( 'custom-ajax-script', BOO_THEME_JS_DIR . 'custom-ajax.js', array( 'jquery' ), null, true );
-	wp_localize_script( 'custom-ajax-script', 'ajax_params', array(
-		'ajax_url' => admin_url( 'admin-ajax.php' ),
-	) );
-}
-add_action( 'wp_enqueue_scripts', 'enqueue_custom_ajax_scripts' );
 
 
 

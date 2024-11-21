@@ -73,7 +73,7 @@ function boo_skolan_post_type() {
 		"description" => "Add Skolan Here",
 		"public" => true,
 		"publicly_queryable" => true,
-		'has_archive' => true,
+		'has_archive' => false,
 		"show_ui" => true,
 		"show_in_menu" => "boo-main-menu",
 		"hierarchical" => false,

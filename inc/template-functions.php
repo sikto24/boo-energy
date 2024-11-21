@@ -193,6 +193,19 @@ if ( ! function_exists( 'boo_energy_comment' ) ) {
 	}
 }
 
+// Boo Tag
+function boo_tags( $postType = 'post', $post_id = null ) {
+	$post_id = $post_id ? $post_id : get_the_ID();
+	$single_boo_tag = get_the_tags( $post_id );
+	$single_boo_tag_class = ( 'post' === get_post_type( $post_id ) ) ? 'boo-tag-post' : 'boo-tag-skolan';
+
+	if ( has_tag( '', $post_id ) && ! empty( $single_boo_tag ) && get_post_type( $post_id ) === $postType ) : ?>
+			<div class="boo-tag <?php echo esc_attr( $single_boo_tag_class ); ?>">
+				<h5><?php echo esc_html( $single_boo_tag[0]->name ); ?></h5>
+			</div>
+		<?php endif;
+}
+
 
 
 
@@ -221,16 +234,28 @@ add_action( 'wp_footer', 'boo_get_notification_count' );
 add_action( 'wp_ajax_load_more_posts', 'boo_load_more_posts' );
 add_action( 'wp_ajax_nopriv_load_more_posts', 'boo_load_more_posts' );
 
+/**
+ * Summary of boo_load_more_posts
+ * @return void
+ * Load More posts With Out Filter
+ */
 function boo_load_more_posts() {
 	// Validate nonce
 	check_ajax_referer( 'load_more_posts_nonce', 'nonce' );
-	$paged = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
 
-	$args = [ 
+	$paged = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
+	$category_slug = isset( $_POST['category_slug'] ) ? sanitize_text_field( $_POST['category_slug'] ) : '';
+
+	$args = array(
 		'post_type' => 'post',
 		'posts_per_page' => 6,
 		'paged' => $paged,
-	];
+	);
+
+	// If a category slug is provided, add it to the query
+	if ( ! empty( $category_slug ) && $category_slug !== 'all' ) {
+		$args['category_name'] = $category_slug; // Filter by category slug
+	}
 
 	$query = new WP_Query( $args );
 
@@ -246,3 +271,86 @@ function boo_load_more_posts() {
 
 	wp_die();
 }
+
+
+
+/**
+ * Filter Posts
+ * Summary of filter_posts_by_category
+ * @return void
+ */
+function filter_posts_by_category() {
+	check_ajax_referer( 'blogPosts', 'nonce' );
+	// Check if category parameter is set
+	if ( isset( $_POST['category_slug'] ) ) {
+		$category_slug = sanitize_text_field( $_POST['category_slug'] );
+
+		// Set up the query arguments
+		$args = array(
+			'post_type' => array( 'post' ),
+			'posts_per_page' => 5,
+		);
+
+		if ( ! empty( $category_slug ) ) {
+			$args['category_name'] = $category_slug; // For default post categories
+			$args['tax_query'] = array(
+				array(
+					'taxonomy' => 'category',  // Change to your custom taxonomy
+					'field' => 'slug',
+					'terms' => $category_slug,
+				),
+			);
+		}
+
+		// Custom query for posts
+		$query = new WP_Query( $args );
+
+		// Check if there are posts
+		if ( $query->have_posts() ) :
+			while ( $query->have_posts() ) :
+				$query->the_post();
+				// Use the existing template part for each post
+				get_template_part( 'template-parts/blog/content-blog' );
+			endwhile;
+			wp_reset_postdata();
+		else :
+			echo '<p>' . esc_html__( 'No posts found', 'boo-energy' ) . '</p>';
+		endif;
+	}
+
+	// End the script with wp_die to handle AJAX request
+	wp_die();
+}
+add_action( 'wp_ajax_filter_posts', 'filter_posts_by_category' );
+add_action( 'wp_ajax_nopriv_filter_posts', 'filter_posts_by_category' );
+
+/**
+ * Load All Posts on Filter
+ * Summary of load_all_posts
+ * @return void
+ */
+function load_all_posts() {
+	check_ajax_referer( 'blogPosts', 'nonce' );
+	$args = array(
+		'post_type' => array( 'post' ),
+		'posts_per_page' => 5,
+		'paged' => isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1,
+	);
+
+	$query = new WP_Query( $args );
+
+	if ( $query->have_posts() ) :
+		while ( $query->have_posts() ) :
+			$query->the_post();
+			get_template_part( 'template-parts/blog/content-blog' ); // Adjust the template part as needed
+		endwhile;
+	else :
+		echo '<p>No posts found.</p>';
+	endif;
+
+	wp_reset_postdata();
+	wp_die();
+}
+
+add_action( 'wp_ajax_load_all_posts', 'load_all_posts' );
+add_action( 'wp_ajax_nopriv_load_all_posts', 'load_all_posts' );

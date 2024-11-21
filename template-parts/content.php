@@ -6,6 +6,7 @@
  *
  * @package Boo_Energy
  */
+// Boo Videos
 $boo_attached_video = get_field( 'attached_video' );
 $boo_studion = get_field( 'boo_studion' );
 $video_url = get_field( 'video_url' );
@@ -18,6 +19,8 @@ if ( $boo_studion ) {
 
 	$boo_video_url = get_field( 'video_url', $studion_post_id );
 }
+
+
 if ( $boo_studion ) {
 	$boo_studion_post_id = $boo_studion->ID;
 	$boo_studion_post_thumbnail = get_the_post_thumbnail_url( $boo_studion_post_id );
@@ -25,16 +28,28 @@ if ( $boo_studion ) {
 
 // Inner Section Linked For Posts
 $boo_post_link_a_post = ( 'true' == get_field( 'link_a_post' ) ) ? get_field( 'link_a_post' ) : false;
-$boo_link_post_with_texteditor = get_field( 'link_post_with_texteditor' );
-$boo_link_post_one = get_field( 'link_post_one' );
-$boo_link_post_two = get_field( 'link_post_two' );
+$boo_link_a_post_skolan = ( 'true' == get_field( 'link_a_post_skolan' ) ) ? get_field( 'link_a_post_skolan' ) : false;
+$boo_add_more_content = ( get_field( 'boo_add_more_content' ) ) ? get_field( 'boo_add_more_content' ) : false;
+$boo_link_post_blog = get_field( 'boo_link_post_blog' );
+$boo_link_post_skolan = get_field( 'boo_link_post_skolan' );
 $link_post_heading = get_field( 'link_post_heading' );
 $link_post_textarea = get_field( 'link_post_textarea' );
 
-if ( $boo_link_post_one ) {
-	$boo_link_post_one_id = $boo_link_post_one->ID;
-	$boo_link_post_one_thumbnail = get_the_post_thumbnail_url( $boo_link_post_one_id );
+if ( $boo_link_post_blog ) {
+	$boo_link_post_blog_id = $boo_link_post_blog->ID;
+	$boo_link_post_blog_thumbnail = get_the_post_thumbnail_url( $boo_link_post_blog_id );
+	$boo_link_post_blog_url = get_the_permalink( $boo_link_post_blog_id );
+	$boo_link_post_blog_tags = get_tag( $boo_link_post_blog_id );
 }
+
+if ( $boo_link_post_skolan ) {
+	$boo_link_post_skolan_id = $boo_link_post_skolan->ID;
+	$boo_link_post_skolan_thumbnail = get_the_post_thumbnail_url( $boo_link_post_skolan_id );
+	$boo_link_post_skolan_url = get_the_permalink( $boo_link_post_skolan_id );
+	$boo_link_post_skolan_tags = get_tag( $boo_link_post_skolan_id );
+}
+
+
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
@@ -92,32 +107,94 @@ if ( $boo_link_post_one ) {
 		</div>
 	<?php endif; ?>
 
-	<?php if ( true === $boo_post_link_a_post ) : ?>
+	<!-- Start Linked Post Blog -->
+	<?php if ( true === $boo_post_link_a_post && ! empty( $boo_link_post_blog ) ) : ?>
 		<div class="single-inner-linked-post-area-wrapper">
 			<div class="single-inner-linked-post-thumbnail">
-				<img src="<?php echo $boo_link_post_one_thumbnail; ?>"
-					alt="<?php echo esc_html__( $boo_link_post_one->post_title, 'boo-energy' ); ?>">
+				<img src="<?php echo $boo_link_post_blog_thumbnail; ?>"
+					alt="<?php echo esc_html__( $boo_link_post_blog->post_title, 'boo-energy' ); ?>">
 			</div>
 			<div class="single-inner-linked-post-content">
-				<?php if ( has_tag() ) : ?>
-					<div class="boo-tag">
-						<h5>Tag</h5>
-					</div>
-				<?php endif; ?>
+
+				<!-- Start Boo Tag -->
+				<?php if ( function_exists( 'boo_tags' ) ) {
+					boo_tags( 'post', $boo_link_post_blog_id );
+
+				} ?>
+
+				<!-- End Boo Tag -->
+
 				<div class="single-inner-linked-post-title">
-					<?php echo esc_html__( $boo_link_post_one->post_title, 'boo-energy' ); ?>
+					<a href="<?php echo $boo_link_post_blog_url; ?>">
+						<h5><?php echo esc_html__( $boo_link_post_blog->post_title, 'boo-energy' ); ?></h5>
+					</a>
 				</div>
-				<div class="single-inner-linked-post-content">
-					<?php echo wp_trim_words( esc_html__( $boo_link_post_one->post_content, 'boo-energy' ), 30 ); ?>
+				<div class="single-inner-linked-post-desc">
+					<?php echo wp_trim_words( esc_html__( $boo_link_post_blog->post_content, 'boo-energy' ), 30 ); ?>
 				</div>
 				<div class="single-inner-linked-post-btn">
-					<a href="" class="btn">Läs mer om laddbox</a>
+					<a href="<?php echo $boo_link_post_blog_url; ?>"
+						class="btn"><?php echo esc_html__( 'Läs mer om laddbox', 'boo-energy' ); ?></a>
 				</div>
 			</div>
+
+		</div>
+	<?php endif; ?>
+	<!-- End Linked Post Blog -->
+
+
+	<!-- Start Extra Content Post Area -->
+	<?php if ( true === $boo_add_more_content ) : ?>
+		<section class="extra-post-area-wrapper">
+			<div class="extra-post-section-title">
+				<h4><?php echo esc_html__( $link_post_heading, 'boo-energy' ); ?></h4>
+			</div>
+			<div class="extra-post-section-content">
+				<?php echo wpautop( $link_post_textarea ); ?>
+			</div>
+		</section>
+	<?php endif; ?>
+	<!-- End Extra Content Post Area -->
+
+
+	<!-- Start Linked Post Skolan -->
+
+	<?php if ( true === $boo_link_a_post_skolan && ! empty( $boo_link_post_skolan_id ) ) : ?>
+		<div class="single-inner-linked-post-area-wrapper boo-skolan-section-post">
+			<div class="single-inner-linked-post-thumbnail">
+				<img src="<?php echo $boo_link_post_skolan_thumbnail; ?>"
+					alt="<?php echo esc_html__( $boo_link_post_skolan->post_title, 'boo-energy' ); ?>">
+			</div>
+			<div class="single-inner-linked-post-content">
+
+				<!-- Start Boo Tag -->
+				<?php if ( function_exists( 'boo_tags' ) ) {
+					boo_tags( 'skolan', $boo_link_post_skolan_id );
+
+				} ?>
+
+				<!-- End Boo Tag -->
+
+				<div class="single-inner-linked-post-title">
+					<a href="<?php echo $boo_link_post_skolan_url; ?>">
+						<h5><?php echo esc_html__( $boo_link_post_skolan->post_title, 'boo-energy' ); ?></h5>
+					</a>
+				</div>
+				<div class="single-inner-linked-post-desc">
+					<?php echo wp_trim_words( esc_html__( $boo_link_post_skolan->post_content, 'boo-energy' ), 30 ); ?>
+				</div>
+				<div class="single-inner-linked-post-btn">
+					<a href="<?php echo $boo_link_post_skolan_url; ?>"
+						class="btn"><?php echo esc_html__( 'Läs mer om laddbox', 'boo-energy' ); ?></a>
+				</div>
+			</div>
+
 		</div>
 	<?php endif; ?>
 
-	<pre>
-		<!-- <?php echo var_dump( $boo_link_post_one ); ?> -->
-	</pre>
+	<!-- End Linked Post Skolan -->
+
+
+
+
 </article>

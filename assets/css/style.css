@@ -8,6 +8,7 @@
 05. CTA CSS
 06. Mobile Menu
 06. Search Bar
+07. Boo Tag
  ****************************************************/
 
 /* === 01 Staer CORE CSS === */
@@ -92,6 +93,15 @@ a {
   padding: 0;
   list-style: none;
 }
+/* Custom Typography */
+h2.typography-h2-large {
+  font-family: var(--e-global-typography-text-font-family), Sans-serif;
+  font-size: var(--e-global-typography-text-font-size);
+  font-weight: var(--e-global-typography-text-font-weight);
+  text-transform: var(--e-global-typography-text-text-transform);
+  font-style: var(--e-global-typography-text-font-style);
+  line-height: var(--e-global-typography-text-line-height);
+}
 /* Button CSS */
 a.boo-btn:not(.elementor-button) {
   background-color: var(--e-global-color-8ba6df9);
@@ -103,9 +113,20 @@ a.boo-btn:not(.elementor-button) {
   fill: var(--e-global-color-858bc38);
   color: var(--e-global-color-858bc38);
   border-radius: 8px 8px 8px 8px;
-  padding: 16px 24px 16px 24px;
+  padding: 15px 23px;
   transition: all 0.3s ease-in;
   display: inline-block;
+  border: 1px solid;
+  border-color: initial;
+}
+
+a.boo-btn.link-large:not(.elementor-button) {
+  font-family: var(--e-global-typography-c1edeb4-font-family), Sans-serif;
+  font-size: var(--e-global-typography-c1edeb4-font-size);
+  font-weight: var(--e-global-typography-c1edeb4-font-weight);
+  text-transform: var(--e-global-typography-c1edeb4-text-transform);
+  font-style: var(--e-global-typography-c1edeb4-font-style);
+  line-height: var(--e-global-typography-c1edeb4-line-height);
 }
 a.boo-btn:hover,
 a.boo-btn:focus {
@@ -113,6 +134,16 @@ a.boo-btn:focus {
   color: var(--e-global-color-858bc38) !important;
 }
 
+a.boo-btn.boo-btn-white {
+  background: var(--e-global-color-3de5e34);
+  color: var(--e-global-color-8ba6df9);
+}
+
+a.boo-btn.boo-btn-white:hover,
+a.boo-btn.boo-btn-white:focus {
+  color: var(--e-global-color-3de5e34);
+  background-color: var(--e-global-color-8ba6df9);
+}
 @media screen and (max-width: 400px) {
   .boo-btn a.elementor-button {
     width: 100%;
@@ -710,20 +741,7 @@ body.menu-open {
   background-color: var(--e-global-color-primary);
 }
 
-.breadcrumb-area-wrapper .boo-tag h5 {
-  font-family: var(--e-global-typography-32e2797-font-family), Sans-serif;
-  font-size: var(--e-global-typography-32e2797-font-size);
-  font-weight: var(--e-global-typography-32e2797-font-weight);
-  text-transform: var(--e-global-typography-32e2797-text-transform);
-  font-style: var(--e-global-typography-32e2797-font-style);
-  line-height: var(--e-global-typography-32e2797-line-height);
-}
-
 .breadcrumb-area-wrapper .boo-tag {
-  width: max-content;
-  background-color: var(--e-global-color-1c78a44);
-  padding: 6px 12px;
-  border-radius: 8px;
   margin-bottom: 16px;
 }
 
@@ -918,3 +936,26 @@ body.menu-open {
     width: 100%;
   }
 }
+
+/* ===  Start Boo Tag Area CSS === */
+
+.boo-tag h5 {
+  font-family: var(--e-global-typography-32e2797-font-family), Sans-serif;
+  font-size: var(--e-global-typography-32e2797-font-size);
+  font-weight: var(--e-global-typography-32e2797-font-weight);
+  text-transform: var(--e-global-typography-32e2797-text-transform);
+  font-style: var(--e-global-typography-32e2797-font-style);
+  line-height: var(--e-global-typography-32e2797-line-height);
+}
+
+.boo-tag {
+  width: max-content;
+  background-color: var(--e-global-color-813ac8f);
+  padding: 6px 12px;
+  border-radius: 8px;
+}
+.boo-tag.boo-tag-skolan {
+  background-color: var(--e-global-color-1c78a44);
+}
+
+/* ===  End Boo Tag Area CSS === */

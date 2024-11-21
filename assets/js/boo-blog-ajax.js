@@ -25,6 +25,9 @@ jQuery(document).ready(function ($) {
 
           if (currentPage >= maxPages) {
             loadMoreBtn.hide();
+            console.log('Hide By Default Load More Js');
+          } else {
+            loadMoreBtn.show();
           }
         },
         error: function (xhr, status, error) {

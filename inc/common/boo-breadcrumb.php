@@ -15,10 +15,10 @@ function boo_energy_breadcrumb_markup() {
 	// Determine if we're on a single post and set variables
 	if ( is_single() && get_post_type() == 'post' ) {
 		$single_blog_class = 'single-blog-style';
-		$single_boo_tag = get_tags();
 	} else {
 		$single_blog_class = '';
 	}
+
 
 	// Set the breadcrumb title based on the page type
 	if ( is_single() ) {
@@ -52,11 +52,13 @@ function boo_energy_breadcrumb_markup() {
 	<section style="background-color:<?php echo $breadcrumb_bg_color; ?>;"
 		class="breadcrumb-area-wrapper d-flex <?php echo esc_attr( $single_blog_class . ' ' . $breadcrumb_class ) ?>">
 		<div class="breadcrumb-area section_px_left">
-			<?php if ( has_tag() && ! empty( $single_boo_tag ) ) : ?>
-				<div class="boo-tag">
-					<h5><?php echo esc_html( $single_boo_tag[0]->name ); ?></h5>
-				</div>
-			<?php endif; ?>
+			<!-- Start Boo Tag -->
+			<?php
+			if ( function_exists( 'boo_tags' ) ) {
+				$post_type = get_post_type();
+				boo_tags( $post_type );
+			} ?>
+			<!-- End Boo Tag -->
 			<h1 style="color:<?php echo $pageTitleColor; ?>"><?php echo esc_html( $boo_custom_page_title ); ?></h1>
 			<?php
 			if ( $enable_description ) {

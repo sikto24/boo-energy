@@ -1,5 +1,8 @@
 <?php
 /**
+ * Template Name: Boo Skolan
+ */
+/**
  * The main template file for Boo Energy theme with custom loop structure
  *
  * @package Boo_Energy
@@ -8,11 +11,22 @@
 get_header();
 global $wp_query;
 $args = array(
-	'post_type' => 'post',
+	'post_type' => 'skolan',
 	'posts_per_page' => get_option( 'posts_per_page' ),
 );
 $max_pages = $wp_query->max_num_pages;
-$categories = get_categories();
+
+$taxonomy = 'category';
+$categories = get_terms( array(
+	'taxonomy' => $taxonomy,
+	'hide_empty' => true,
+	'object_ids' => get_posts( array(
+		'post_type' => 'skolan',
+		'posts_per_page' => -1,
+		'fields' => 'ids',
+	) ),
+) );
+
 $custom_query = new WP_Query( $args );
 ?>
 
@@ -22,12 +36,13 @@ $custom_query = new WP_Query( $args );
 			<div class="col">
 				<div class="post-filter-wrapper d-pb-32 m-pb-24">
 					<ul>
-						<li><a href="#" data-slug="all"><?php echo esc_html__( 'Allt om el', 'boo-energy' ); ?></a></li>
 						<?php foreach ( $categories as $category ) : ?>
 							<li><a href="#"
 									data-slug="<?php echo esc_attr( $category->slug ); ?>"><?php echo esc_html( $category->name ); ?></a>
 							</li>
 						<?php endforeach; ?>
+						<li><a href="#" data-slug="all"><?php echo esc_html__( 'Allt om el', 'boo-energy' ); ?></a></li>
+
 					</ul>
 				</div>
 			</div>
@@ -54,12 +69,6 @@ $custom_query = new WP_Query( $args );
 									get_template_part( 'template-parts/blog/content-blog' );
 
 								elseif ( $post_count === 6 ) : ?>
-								</div>
-								<div class="boo-postbox-pagination load-more-btn-posts-frist text-center d-pt-32">
-									<a href="#" id="load-more-post-cat" class="boo-btn link-large"
-										data-max-pages="<?php echo $max_pages; ?>">
-										Ladda fler
-									</a>
 								</div>
 								<section aria-labelledby="Boo-skolan" class="boo-post-inner-section-wrapper d-p-88">
 									<div class="row">
@@ -117,11 +126,12 @@ $custom_query = new WP_Query( $args );
 							// Pagination
 							?>
 						</div>
-						<div class="boo-postbox-pagination load-more-btn-posts-second text-center d-pt-32">
+						<div class="boo-postbox-pagination text-center d-pt-32">
 							<a href="#" id="load-more-post-btn" class="boo-btn link-large"
 								data-max-pages="<?php echo $max_pages; ?>">
 								<?php echo esc_html__( 'Ladda fler', 'boo-energy' ); ?>
 							</a>
+
 						</div>
 					</div>
 				<?php endif; ?> <?php else :

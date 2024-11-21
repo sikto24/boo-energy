@@ -10,6 +10,8 @@
 07. Search Bar
 08. Magnific PopUp
 09. Blog Inner Section Slider
+10. Related Blog Posts Slider
+11. Studion Video Carousel
 
  ****************************************************/
 (function ($) {
@@ -227,6 +229,61 @@
     }
   }
 
+  //10. Related Blog Posts Slider
+  function relatedBlogPostsSlider() {
+    if (windowWidth <= 767) {
+      $('.related-blog-posts').slick({
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        autoplay: false,
+        autoplaySpeed: 2000,
+        dots: true,
+        arrows: false,
+        infinite: false,
+        lazyLoad: 'ondemand'
+      });
+    }
+  }
+
+  // 11. Studion Video Carousel
+  function booStudionVideoCarousel() {
+    $('.boo-studion-video-carousel-wrapper').slick({
+      slidesToShow: 2.6,
+      slidesToScroll: 2,
+      autoplay: false,
+      autoplaySpeed: 2000,
+      dots: true,
+      arrows: false,
+      infinite: false,
+      lazyLoad: 'ondemand',
+
+      responsive: [
+        {
+          breakpoint: 1025,
+          settings: {
+            slidesToShow: 2,
+            slidesToScroll: 2
+          }
+        },
+        {
+          breakpoint: 769,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 1
+          }
+        },
+        {
+          breakpoint: 480,
+          settings: {
+            slidesToShow: 1,
+            slidesToScroll: 2,
+            infinite: false
+          }
+        }
+      ]
+    });
+  }
+
   $(document).ready(function () {
     initializeFooterToggle();
     booSliderSection();
@@ -237,5 +294,7 @@
     searchBar();
     magnificpopup();
     booBlogSectionSlider();
+    relatedBlogPostsSlider();
+    booStudionVideoCarousel();
   });
 })(jQuery);

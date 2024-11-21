@@ -17,7 +17,10 @@ $single_boo_tag = get_tags();
 			<?php endif; ?>
 
 			<div class="single-boo-blog-title">
-				<h5><?php the_title(); ?></h5>
+				<a href="<?php the_permalink(); ?>">
+					<h5><?php the_title(); ?></h5>
+				</a>
+
 			</div>
 			<div class="single-boo-blog-details">
 				<?php the_excerpt(); ?>

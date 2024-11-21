@@ -12,7 +12,7 @@ get_header();
 
 ?>
 
-<section class="boo-post-area-wrapper">
+<section class="boo-post-area-wrapper single-blog-view-main">
 	<div class="container">
 		<div class="row justify-content-center">
 			<div class="col-xl-7 col-lg-8 col-md-12 col-12 ">
@@ -81,6 +81,12 @@ get_header();
 		</div>
 	</div>
 </section>
+
+<!-- Start Related Blog Posts -->
+<?php
+get_template_part( 'template-parts/blog/content-related-blog' );
+?>
+<!-- END Related Blog Posts -->
 
 <?php
 get_footer();
