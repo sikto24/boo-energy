@@ -118,7 +118,7 @@ if ( ! function_exists( 'boo_pagination' ) ) {
 			)
 		);
 		if ( $paginations ) {
-			echo '<div class="basic-pagination"><nav><ul>';
+			echo '<div class="boo-basic-pagination"><nav><ul>';
 			foreach ( $paginations as $pagination ) {
 				echo "<li>$pagination</li>";
 			}

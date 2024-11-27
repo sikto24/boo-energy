@@ -75,7 +75,7 @@ function boo_energy_breadcrumb_markup() {
 }
 
 function add_breadcrumb_for_non_front_page() {
-	if ( ! is_front_page() && ! is_page( 'foretag' ) && 'elementor_header_footer' !== get_page_template_slug() ) {
+	if ( ! is_front_page() && ! is_page( 'foretag' ) && 'elementor_header_footer' !== get_page_template_slug() && ! is_404() && ! is_search() ) {
 		add_action( 'boo_before_main_content', 'boo_energy_breadcrumb_markup' );
 	}
 }

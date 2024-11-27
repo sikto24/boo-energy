@@ -10,52 +10,34 @@
 get_header();
 ?>
 
-<main id="primary" class="site-main">
-
-	<section class="error-404 not-found">
-		<header class="page-header">
-			<h1 class="page-title"><?php esc_html_e( 'Oops! That page can&rsquo;t be found.', 'boo-energy' ); ?></h1>
-		</header><!-- .page-header -->
-
-		<div class="page-content">
-			<p><?php esc_html_e( 'It looks like nothing was found at this location. Maybe try one of the links below or a search?', 'boo-energy' ); ?>
-			</p>
-
-			<?php
-			get_search_form();
-
-			the_widget( 'WP_Widget_Recent_Posts' );
-			?>
-
-			<div class="widget widget_categories">
-				<h2 class="widget-title"><?php esc_html_e( 'Most Used Categories', 'boo-energy' ); ?></h2>
-				<ul>
-					<?php
-					wp_list_categories(
-						array(
-							'orderby'    => 'count',
-							'order'      => 'DESC',
-							'show_count' => 1,
-							'title_li'   => '',
-							'number'     => 10,
-						)
-					);
-					?>
-				</ul>
-			</div><!-- .widget -->
-
-			<?php
-			/* translators: %1$s: smiley */
-			$boo_energy_archive_content = '<p>' . sprintf( esc_html__( 'Try looking in the monthly archives. %1$s', 'boo-energy' ), convert_smilies( ':)' ) ) . '</p>';
-			the_widget( 'WP_Widget_Archives', 'dropdown=1', "after_title=</h2>$boo_energy_archive_content" );
-
-			the_widget( 'WP_Widget_Tag_Cloud' );
-			?>
-
-		</div><!-- .page-content -->
-	</section><!-- .error-404 -->
-
-</main><!-- #main -->
+<section class="error-404 not-found-wrapper">
+	<div class="container-fluid">
+		<div class="row ">
+			<div class="col-lg-7 col-md-12 align-items-center d-flex">
+				<div class="not-found-area-left">
+					<div class="not-found-content">
+						<h1>
+							<?php echo esc_html__( 'Sidan kunde inte hittas', 'boo-ernergy' ); ?>
+						</h1>
+						<p class="typography-bread-large">
+							<?php echo esc_html__( 'Kunde inte hitta sidan du söker. Försök igen eller gå tillbaka till startsidan.', 'boo-energy' ); ?>
+						</p>
+					</div>
+					<div class="not-found-btn">
+						<a href="<?php echo home_url( '/' ) ?>" class="boo-btn link-large">
+							<?php echo esc_html__( 'Utforska våra elavtal', 'boo-energy' ); ?>
+						</a>
+					</div>
+				</div>
+			</div>
+			<div class="col-lg-5  col-md-12 justify-content-end d-flex align-items-lg-center">
+				<div class="not-found-area-right">
+					<img src="<?php echo BOO_THEME_IMG_DIR . 'boo-error.svg'; ?>" alt="">
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
 
 <?php
 get_footer();

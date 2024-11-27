@@ -9,6 +9,7 @@
 06. Mobile Menu
 06. Search Bar
 07. Boo Tag
+08. Boo Pagination CSS
  ****************************************************/
 
 /* === 01 Staer CORE CSS === */
@@ -101,6 +102,14 @@ h2.typography-h2-large {
   text-transform: var(--e-global-typography-text-text-transform);
   font-style: var(--e-global-typography-text-font-style);
   line-height: var(--e-global-typography-text-line-height);
+}
+.typography-bread-large {
+  font-family: var(--e-global-typography-dcf6b24-font-family), Sans-serif;
+  font-size: var(--e-global-typography-dcf6b24-font-size);
+  font-weight: var(--e-global-typography-dcf6b24-font-weight);
+  text-transform: var(--e-global-typography-dcf6b24-text-transform);
+  font-style: var(--e-global-typography-dcf6b24-font-style);
+  line-height: var(--e-global-typography-dcf6b24-line-height);
 }
 /* Button CSS */
 a.boo-btn:not(.elementor-button) {
@@ -833,7 +842,7 @@ body.menu-open {
 
 /* ===  END Breadcrumb Area CSS === */
 
-.boo-search-bar-area-wrapper .boo-search-bar input[type='search'] {
+.boo-search-bar input[type='search'] {
   width: 86.5%;
   padding: 16px 10px;
   font-size: 16px;
@@ -843,11 +852,11 @@ body.menu-open {
   background-color: #fff;
 }
 
-.boo-search-bar-area-wrapper .boo-search-bar input[type='search']::placeholder {
+.boo-search-bar input[type='search']::placeholder {
   color: #818181;
 }
 
-.boo-search-bar-area-wrapper .boo-search-bar input[type='submit'] {
+.boo-search-bar input[type='submit'] {
   width: 13.5%;
   border-radius: 8px;
   border: none;
@@ -959,3 +968,31 @@ body.menu-open {
 }
 
 /* ===  End Boo Tag Area CSS === */
+
+/* ===  Start Boo Pagination CSS === */
+.boo-basic-pagination ul {
+  margin: 0;
+  list-style: none;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+.boo-basic-pagination ul li a,
+.boo-basic-pagination ul li .current {
+  height: 24px;
+  width: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--e-global-color-2708c15);
+  transition: all 0.3s ease-in;
+}
+
+.boo-basic-pagination ul li .current {
+  font-weight: 700;
+  width: 32px;
+  border: 1px solid var(--e-global-color-3335742);
+  border-radius: 8px;
+}
+/* ===  End Boo Pagination CSS === */

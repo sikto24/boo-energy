@@ -28,7 +28,13 @@ function boo_theme_scripts() {
 		wp_enqueue_style( 'magnific-popup', BOO_THEME_CSS_DIR . 'magnific-popup.min.css', null, '1.1.0', 'all' );
 	}
 	if ( is_home() && ! is_front_page() || is_single() || is_page_template( 'template-boo-skolan.php' ) ) {
-		wp_enqueue_style( 'boo-blog-css', BOO_THEME_CSS_DIR . 'boo-blog-post.css', null, '1.0.0', 'all' );
+		wp_enqueue_style( 'boo-blog', BOO_THEME_CSS_DIR . 'boo-blog-post.css', null, '1.0.0', 'all' );
+	}
+	if ( is_404() ) {
+		wp_enqueue_style( 'boo-error', BOO_THEME_CSS_DIR . 'boo-error.css', null, '1.0.0', 'all' );
+	}
+	if ( is_search() ) {
+		wp_enqueue_style( 'boo-search-result', BOO_THEME_CSS_DIR . 'boo-search-result.css', null, '1.0.0', 'all' );
 	}
 
 	// all js
@@ -45,7 +51,13 @@ function boo_theme_scripts() {
 
 	// JS based on Section / Page
 
-
+	if ( is_search() ) {
+		wp_enqueue_script( 'boo-search-filter-ajax', BOO_THEME_JS_DIR . 'boo-search-filter-ajax.js', array( 'jquery' ), '1.1.0', true );
+		wp_localize_script( 'boo-search-filter-ajax', 'boo_search_ajax', [ 
+			'ajax_url' => admin_url( 'admin-ajax.php' ),
+			'nonce' => wp_create_nonce( 'search_nonce' ),
+		] );
+	}
 	if ( is_home() && ! is_front_page() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_script( 'boo-blog', BOO_THEME_JS_DIR . 'boo-blog-ajax.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'boo-blog', 'boo_blog_ajax', array(
