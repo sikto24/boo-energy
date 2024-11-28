@@ -8,11 +8,12 @@
 
 function boo_energy_breadcrumb_markup() {
 	global $post;
+	if ( is_home() ) {
+		$blog_page_id = get_option( 'page_for_posts' );
+	} else {
+		$blog_page_id = get_the_ID();
+	}
 
-	// Get the ID of the blog page (Posts Page) if we're on the blog page
-	$blog_page_id = get_option( 'page_for_posts' );
-
-	// Determine if we're on a single post and set variables
 	if ( is_single() && get_post_type() == 'post' ) {
 		$single_blog_class = 'single-blog-style';
 	} else {
@@ -20,7 +21,6 @@ function boo_energy_breadcrumb_markup() {
 	}
 
 
-	// Set the breadcrumb title based on the page type
 	if ( is_single() ) {
 		$title = get_the_title();
 	} elseif ( is_home() ) {
@@ -34,12 +34,21 @@ function boo_energy_breadcrumb_markup() {
 	}
 
 	// Get custom ACF fields for the blog page if on the blog page, otherwise get for the current page
-	$enable_custom_page_title = ( is_home() && get_field( "enable_custom_page_title", $blog_page_id ) === true ) ? true : false;
-	$boo_custom_page_title = ( $enable_custom_page_title ) ? get_field( 'page_title', $blog_page_id ) : $title;
-	$enable_description = ( is_home() && get_field( "enable_description", $blog_page_id ) === true ) ? true : false;
-	$page_description = ( is_home() ) ? get_field( "page_description", $blog_page_id ) : get_field( "page_description" );
+	$enable_custom_page_title = ( is_home() || is_page() || is_front_page() && get_field( "enable_custom_page_title", $blog_page_id ) === true ) ? true : false;
+	$enable_description = ( get_field( "enable_description", $blog_page_id ) === true ) ? true : false;
+	$page_description = get_field( "page_description" ) ?: "";
 	$enable_breadcrumb_secendary_color = ( get_field( "enable_breadcrumb_secendary_color" ) === true ) ? true : false;
+	$boo_enable_cs_button = ( get_field( "enable_cs_button" ) === true ) ? true : false;
+	$boo_button_cs_text = get_field( 'button_cs_text' ) ? get_field( 'button_cs_text' ) : '';
+	$boo_button_cs_url = get_field( 'button_cs_url' ) ? get_field( 'button_cs_url' ) : '';
 
+	if ( is_home() ) {
+		$boo_custom_page_title = ( $enable_custom_page_title ) ? get_field( 'page_title', $blog_page_id ) : $title;
+
+	} else {
+		$boo_custom_page_title = $title;
+
+	}
 	// Set color and background image based on page type and ACF fields
 	$breadcrumb_bg_color = ( true === $enable_breadcrumb_secendary_color || is_single() ) ? 'var(--e-global-color-8ba6df9)' : 'var(--e-global-color-primary)';
 	$pageTitleColor = ( true === $enable_breadcrumb_secendary_color || is_single() ) ? 'var(--e-global-color-1c78a44)' : 'var(--e-global-color-3de5e34)';
@@ -64,6 +73,12 @@ function boo_energy_breadcrumb_markup() {
 			if ( $enable_description ) {
 				echo wpautop( $page_description );
 			}
+			if ( true === $boo_enable_cs_button && ! empty( $boo_button_cs_url ) && ! empty( $boo_button_cs_text ) ) : ?>
+				<a href="<?php echo esc_url( $boo_button_cs_url ) ?>" class="boo-btn">
+					<?php echo esc_html__( $boo_button_cs_text, 'boo-energy' ); ?>
+				</a>
+				<?php
+			endif;
 			?>
 		</div>
 		<div class="breadcrumb-area-img d-flex justify-content-end">

@@ -215,47 +215,39 @@ add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locati
 
 
 function boo_filter_posts() {
-	// Get the search query from POST for AJAX requests
 	$search_query = isset( $_POST['search_query'] ) ? sanitize_text_field( $_POST['search_query'] ) : '';
 
-	// Fallback to GET if you're on the search page (normal search)
 	if ( empty( $search_query ) && isset( $_GET['s'] ) ) {
 		$search_query = sanitize_text_field( $_GET['s'] );
 	}
 
-	// Get data from the POST request
 	$post_type = isset( $_POST['post_type'] ) && $_POST['post_type'] !== 'all' ? sanitize_text_field( $_POST['post_type'] ) : array_keys( get_post_types( array( 'public' => true ) ) );
 	$paged = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
 
-	// Set up the query args
 	$args = array(
-		'posts_per_page' => 10,
+		'posts_per_page' => 5,
 		'paged' => $paged,
 	);
 
-	// Add the search query if it exists
 	if ( ! empty( $search_query ) ) {
 		$args['s'] = $search_query;
 	}
 
-	// Filter by post type if specified (else use default)
 	if ( $post_type !== 'all' ) {
 		$args['post_type'] = $post_type;
 	}
 
-	// Execute the query
 	$query = new WP_Query( $args );
 
+
+
 	if ( $query->have_posts() ) {
-		// Start output buffering to capture the results
 		ob_start();
 		while ( $query->have_posts() ) {
 			$query->the_post();
 			get_template_part( 'template-parts/content', 'search' );
-		}
-		$results = ob_get_clean();
 
-		// Generate pagination
+		}
 		$pagination = paginate_links( array(
 			'total' => $query->max_num_pages,
 			'current' => $paged,
@@ -263,21 +255,24 @@ function boo_filter_posts() {
 			'next_text' => 'new post',
 		) );
 
-		// Send the response back to the client
+		$results = ob_get_clean();
+
+
+
+
 		wp_send_json_success( array(
 			'results' => $results,
 			'pagination' => $pagination,
-			'search_query' => $search_query,  // Include search query in the response for debugging
+			'search_query' => $search_query,
 		) );
 	} else {
-		// No results found
 		wp_send_json_error();
 	}
 
-	wp_die(); // Always call this to terminate the request properly
+	wp_die();
 }
 
-// Register the AJAX action hooks
 add_action( 'wp_ajax_boo_filter_posts', 'boo_filter_posts' );
 add_action( 'wp_ajax_nopriv_boo_filter_posts', 'boo_filter_posts' );
+
 

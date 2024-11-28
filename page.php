@@ -13,13 +13,22 @@
  */
 
 get_header();
+$boo_enable_page_layout = ( true === get_field( 'boo_enable_page_layout' ) ) ? get_field( 'boo_enable_page_layout' ) : false;
+$boo_select_layout = get_field( 'boo_select_layout' ) ? get_field( 'boo_select_layout' ) : '';
+
+if ( 'Half' == $boo_select_layout ) {
+	$page_layout = 'col-lg-7 col-md-12';
+} else {
+	$page_layout = 'col-lg-12';
+}
 ?>
+
 
 <!-- Start Page Section -->
 <section id="primary" class="page-area-wrapper site-main">
 	<div class="container">
 		<div class="row">
-			<div class="col-xl-12">
+			<div class="<?php echo $page_layout; ?>">
 				<?php
 				if ( have_posts() ) :
 					while ( have_posts() ) :

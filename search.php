@@ -7,17 +7,15 @@
 
 get_header();
 
-// Get the search query
 $search_query = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 
-// Get counts for all post types
 $post_type_counts = array();
 foreach ( $post_types as $post_type => $post_type_object ) {
 	$args = array(
 		's' => $search_query,
 		'post_type' => $post_type,
-		'posts_per_page' => 1, // Only fetch count
+		'posts_per_page' => 10,
 	);
 	$query = new WP_Query( $args );
 	if ( $query->found_posts > 0 ) {
@@ -34,7 +32,7 @@ $countFindPosts = array_sum( $post_type_counts );
 		<div class="row justify-content-center">
 			<div class="col-lg-8">
 				<div class="search-breadcrumb-area">
-					<h2 class="typography-h2-large"><?php esc_html_e( 'Search Results', 'boo-energy' ); ?></h2>
+					<h2 class="typography-h2-large"><?php echo esc_html__( 'Sök på sidan', 'boo-energy' ); ?></h2>
 				</div>
 			</div>
 		</div>
@@ -81,7 +79,7 @@ $countFindPosts = array_sum( $post_type_counts );
 								$args = [ 
 									's' => $search_query,
 									'post_type' => array_keys( $post_types ),
-									'posts_per_page' => 10,
+									'posts_per_page' => 5,
 								];
 
 								$search_results = new WP_Query( $args );
@@ -108,9 +106,8 @@ $countFindPosts = array_sum( $post_type_counts );
 								endif;
 								?>
 							</div>
-							<!-- Pagination will be placed here -->
 							<div id="pagination-container"></div>
-							<?php boo_pagination(); ?>
+							<?php boo_pagination( $search_results ); ?>
 						</section>
 					<?php else : ?>
 						<?php get_template_part( 'template-parts/content', 'none' ); ?>

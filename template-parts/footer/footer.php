@@ -1,5 +1,7 @@
 <!-- Start Boo CTA  -->
-<?php get_template_part( 'template-parts/boo-footer-cta' ); ?>
+<?php if ( ! is_404() ) {
+	get_template_part( 'template-parts/boo-footer-cta' );
+} ?>
 <!-- END Boo CTA  -->
 
 <!-- Start Footer  -->
@@ -105,7 +107,7 @@
 			wp_nav_menu(
 				array(
 					'theme_location' => 'menu-5',
-					'menu_class'     => 'copy-right-menu d-flex boo-reset-ul ',
+					'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
 				)
 			);
 			?>

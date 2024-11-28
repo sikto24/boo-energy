@@ -57,6 +57,7 @@ function boo_theme_scripts() {
 			'ajax_url' => admin_url( 'admin-ajax.php' ),
 			'nonce' => wp_create_nonce( 'search_nonce' ),
 		] );
+
 	}
 	if ( is_home() && ! is_front_page() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_script( 'boo-blog', BOO_THEME_JS_DIR . 'boo-blog-ajax.js', array( 'jquery' ), null, true );

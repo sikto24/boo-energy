@@ -84,6 +84,10 @@ ul {
   padding: 0px;
   margin: 0px;
 }
+.single__post ul {
+  padding-left: 15px !important;
+  margin: auto !important;
+}
 a {
   text-decoration: none !important;
 }
@@ -447,6 +451,7 @@ span.notification-count {
   min-height: 601px;
   background-repeat: no-repeat;
   background-position: top right;
+  border-top: 1px solid var(--e-global-color-3335742);
 }
 
 .footer-cta-area-wrapper .footer-cta-desc p {
@@ -758,7 +763,9 @@ body.menu-open {
 .breadcrumb-area p {
   color: var(--e-global-color-3de5e34);
 }
-
+.breadcrumb-area a.boo-btn {
+  width: max-content;
+}
 .breadcrumb-area p {
   font-family: var(--e-global-typography-dcf6b24-font-family), Sans-serif;
   font-size: var(--e-global-typography-dcf6b24-font-size);
@@ -766,16 +773,20 @@ body.menu-open {
   text-transform: var(--e-global-typography-dcf6b24-text-transform);
   font-style: var(--e-global-typography-dcf6b24-font-style);
   line-height: var(--e-global-typography-dcf6b24-line-height);
-  margin-top: 32px;
+  max-width: 800px;
 }
 
 .breadcrumb-area {
-  width: 60%;
+  width: 70%;
   padding: 88px 0;
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .breadcrumb-area-img {
-  width: 40%;
+  width: 30%;
 }
 .boo-default-breadcrumb .breadcrumb-area-img img {
   height: 277px;
@@ -793,6 +804,7 @@ body.menu-open {
 @media screen and (min-width: 1025px) {
   .breadcrumb-area-wrapper {
     padding-left: calc(calc(100% - 1380px) / 2);
+    min-height: 355px;
   }
   .boo-single-post-breadcrumb {
     gap: 104px;
@@ -808,7 +820,8 @@ body.menu-open {
     flex-direction: column-reverse;
   }
 
-  .breadcrumb-area-wrapper .breadcrumb-area {
+  .breadcrumb-area-wrapper .breadcrumb-area,
+  .breadcrumb-area p {
     width: 100%;
   }
 
@@ -839,7 +852,12 @@ body.menu-open {
     height: 361px;
   }
 }
-
+@media screen and (max-width: 500px) {
+  .breadcrumb-area a.boo-btn {
+    width: 100%;
+    text-align: center;
+  }
+}
 /* ===  END Breadcrumb Area CSS === */
 
 .boo-search-bar input[type='search'] {

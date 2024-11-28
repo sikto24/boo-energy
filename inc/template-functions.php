@@ -109,14 +109,26 @@ add_action( 'boo_footer', 'boo_footer_wrapper', 10 );
  */
 if ( ! function_exists( 'boo_pagination' ) ) {
 
-	function boo_pagination() {
+	function boo_pagination( $query = null ) {
+		$query = $query ? $query : $GLOBALS['wp_query'];
+
+		if ( $query->max_num_pages <= 1 ) {
+			return;
+		}
+
 		$paginations = paginate_links(
 			array(
+				'base' => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
+				'format' => '?paged=%#%',
+				'current' => max( 1, get_query_var( 'paged' ) ),
+				'total' => $query->max_num_pages,
 				'type' => 'array',
 				'prev_text' => '<i class="fa-regular fa-arrow-left"></i>',
 				'next_text' => '<i class="fa-regular fa-arrow-right"></i>',
 			)
 		);
+
+		// Output pagination if available.
 		if ( $paginations ) {
 			echo '<div class="boo-basic-pagination"><nav><ul>';
 			foreach ( $paginations as $pagination ) {
@@ -126,6 +138,7 @@ if ( ! function_exists( 'boo_pagination' ) ) {
 		}
 	}
 }
+
 
 
 // Load Elementor Kits on Other page where Elementor Not loaded
