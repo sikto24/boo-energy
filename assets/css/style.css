@@ -157,6 +157,17 @@ a.boo-btn.boo-btn-white:focus {
   color: var(--e-global-color-3de5e34);
   background-color: var(--e-global-color-8ba6df9);
 }
+
+.elementor-editor-active
+  .elementor-text-editor.elementor-inline-editing
+  p:not(:last-child) {
+  margin-bottom: 16px;
+}
+
+.elementor-widget p:not(:last-child) {
+  margin-bottom: 16px;
+}
+
 @media screen and (max-width: 400px) {
   .boo-btn a.elementor-button {
     width: 100%;

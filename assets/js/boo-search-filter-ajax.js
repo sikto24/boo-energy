@@ -1,9 +1,6 @@
 jQuery(document).ready(function ($) {
-  // Handle filter tab click
   $('#filter-tabs a').on('click', function (e) {
     e.preventDefault();
-
-    // Update active class
     $('#filter-tabs a').removeClass('search-filter-active');
     $(this).addClass('search-filter-active');
 
@@ -16,10 +13,9 @@ jQuery(document).ready(function ($) {
       type: 'POST',
       data: {
         action: 'boo_filter_posts',
-        security: boo_search_ajax.nonce,
         post_type: postType,
-        search_query: searchQuery, // Ensure the search term is included here
-        page: 1 // Reset pagination
+        search_query: searchQuery,
+        page: 1
       },
       beforeSend: function () {
         $('#search-results-container').html('<p>Loading...</p>');

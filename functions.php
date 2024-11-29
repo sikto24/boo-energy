@@ -215,27 +215,19 @@ add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locati
 
 
 function boo_filter_posts() {
-	$search_query = isset( $_POST['search_query'] ) ? sanitize_text_field( $_POST['search_query'] ) : '';
-
-	if ( empty( $search_query ) && isset( $_GET['s'] ) ) {
-		$search_query = sanitize_text_field( $_GET['s'] );
-	}
-
-	$post_type = isset( $_POST['post_type'] ) && $_POST['post_type'] !== 'all' ? sanitize_text_field( $_POST['post_type'] ) : array_keys( get_post_types( array( 'public' => true ) ) );
+	$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( $_POST['post_type'] ) : 'all';
 	$paged = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
+	$search_query = isset( $_POST['search_query'] ) ? sanitize_text_field( $_POST['search_query'] ) : '';
+	$posts_per_page = get_option( 'posts_per_page' );
+	$post_types = ( $post_type === 'all' ) ? array_keys( get_post_types( array( 'public' => true ) ) ) : $post_type;
+
 
 	$args = array(
-		'posts_per_page' => 5,
+		'posts_per_page' => $posts_per_page,
 		'paged' => $paged,
+		's' => $search_query,
+		'post_type' => $post_types
 	);
-
-	if ( ! empty( $search_query ) ) {
-		$args['s'] = $search_query;
-	}
-
-	if ( $post_type !== 'all' ) {
-		$args['post_type'] = $post_type;
-	}
 
 	$query = new WP_Query( $args );
 

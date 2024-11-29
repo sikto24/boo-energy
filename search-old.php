@@ -9,29 +9,22 @@ get_header();
 
 $search_query = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
-$posts_per_page = get_option( 'posts_per_page' );
 
-$post_type_counts = array(
-	'posts' => 0,
-	'pages' => 0
-);
+$post_type_counts = array();
 foreach ( $post_types as $post_type => $post_type_object ) {
-
-	$group = ( $post_type === 'page' ) ? 'pages' : 'posts';
 	$args = array(
 		's' => $search_query,
 		'post_type' => $post_type,
-		'posts_per_page' => $posts_per_page,
+		'posts_per_page' => 10,
 	);
 	$query = new WP_Query( $args );
 	if ( $query->found_posts > 0 ) {
-		$post_type_counts[ $group ] += $query->found_posts;
+		$post_type_counts[ $post_type ] = $query->found_posts;
 	}
 	wp_reset_postdata();
 }
 
 $countFindPosts = array_sum( $post_type_counts );
-
 ?>
 
 <section class="search-result-wrapper">
@@ -66,22 +59,18 @@ $countFindPosts = array_sum( $post_type_counts );
 							<ul id="filter-tabs">
 								<li>
 									<a class="search-filter-active" href="#" data-post-type="all">
-										<?php echo esc_html__( 'Alla', 'boo-energy' ) . ' (' . esc_html( $countFindPosts ) . ')'; ?>
+										<?php echo esc_html__( 'All', 'boo-energy' ) . ' (' . esc_html( $countFindPosts ) . ')'; ?>
 									</a>
 								</li>
-								<li>
-									<a href="#" data-post-type="page">
-										<?php echo esc_html__( 'Sidor', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['pages'] ) . ')'; ?>
-									</a>
-								</li>
-								<li>
-									<a href="#" data-post-type="post">
-										<?php echo esc_html__( 'Artiklar', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['posts'] ) . ')'; ?>
-									</a>
-								</li>
+								<?php foreach ( $post_type_counts as $post_type => $count ) : ?>
+									<?php $label = $post_types[ $post_type ]->labels->name; ?>
+									<li>
+										<a href="#" data-post-type="<?php echo esc_attr( $post_type ); ?>">
+											<?php echo esc_html( $label ) . ' (' . esc_html( $count ) . ')'; ?>
+										</a>
+									</li>
+								<?php endforeach; ?>
 							</ul>
-
-
 						</section>
 						<section class="search-result-area-wrapper" id="search-results">
 							<div id="search-results-container">
@@ -90,7 +79,7 @@ $countFindPosts = array_sum( $post_type_counts );
 								$args = [ 
 									's' => $search_query,
 									'post_type' => array_keys( $post_types ),
-									'posts_per_page' => $posts_per_page,
+									'posts_per_page' => 5,
 								];
 
 								$search_results = new WP_Query( $args );
