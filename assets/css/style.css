@@ -999,7 +999,7 @@ body.menu-open {
 /* ===  End Boo Tag Area CSS === */
 
 /* ===  Start Boo Pagination CSS === */
-.boo-basic-pagination ul {
+.boo-basic-pagination {
   margin: 0;
   list-style: none;
   align-items: center;
@@ -1007,8 +1007,8 @@ body.menu-open {
   justify-content: center;
 }
 
-.boo-basic-pagination ul li a,
-.boo-basic-pagination ul li .current {
+.boo-basic-pagination a,
+.boo-basic-pagination .current {
   height: 24px;
   width: 24px;
   display: flex;
@@ -1025,3 +1025,33 @@ body.menu-open {
   border-radius: 8px;
 }
 /* ===  End Boo Pagination CSS === */
+.search-suggestions {
+  position: absolute;
+  background: #fff;
+  border: 1px solid #ddd;
+  max-width: 300px;
+  width: 100%;
+  z-index: 1000;
+  display: none;
+}
+
+.suggestion {
+  padding: 10px;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.suggestion:last-child {
+  border-bottom: none;
+}
+
+.suggestion a {
+  text-decoration: none;
+  color: #333;
+}
+
+.no-suggestions,
+.error {
+  padding: 10px;
+  color: #999;
+  text-align: center;
+}

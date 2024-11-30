@@ -206,65 +206,32 @@ require_once BOO_THEME_INC . 'class-wp-bootstrap-navwalker.php';
  */
 require_once BOO_THEME_INC . 'boo-header-extend.php';
 
-// Register Elementor locations for both header and footer
-function boo_register_elementor_locations( $elementor_theme_manager ) {
-	$elementor_theme_manager->register_location( 'header' );
-	$elementor_theme_manager->register_location( 'footer' );
-}
-add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locations' );
+function boo_ajax_live_search() {
+	$search_query = isset( $_POST['query'] ) ? sanitize_text_field( $_POST['query'] ) : '';
+	$suggestions = [];
 
+	if ( ! empty( $search_query ) ) {
+		$args = [ 
+			's' => $search_query,
+			'post_type' => [ 'post', 'page' ], // Add other post types if needed
+			'posts_per_page' => 5, // Limit the number of suggestions
+		];
+		$query = new WP_Query( $args );
 
-function boo_filter_posts() {
-	$post_type = isset( $_POST['post_type'] ) ? sanitize_text_field( $_POST['post_type'] ) : 'all';
-	$paged = isset( $_POST['page'] ) ? intval( $_POST['page'] ) : 1;
-	$search_query = isset( $_POST['search_query'] ) ? sanitize_text_field( $_POST['search_query'] ) : '';
-	$posts_per_page = get_option( 'posts_per_page' );
-	$post_types = ( $post_type === 'all' ) ? array_keys( get_post_types( array( 'public' => true ) ) ) : $post_type;
-
-
-	$args = array(
-		'posts_per_page' => $posts_per_page,
-		'paged' => $paged,
-		's' => $search_query,
-		'post_type' => $post_types
-	);
-
-	$query = new WP_Query( $args );
-
-
-
-	if ( $query->have_posts() ) {
-		ob_start();
-		while ( $query->have_posts() ) {
-			$query->the_post();
-			get_template_part( 'template-parts/content', 'search' );
-
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$suggestions[] = [ 
+					'title' => get_the_title(),
+					'link' => get_permalink(),
+				];
+			}
 		}
-		$pagination = paginate_links( array(
-			'total' => $query->max_num_pages,
-			'current' => $paged,
-			'prev_text' => 'old post',
-			'next_text' => 'new post',
-		) );
-
-		$results = ob_get_clean();
-
-
-
-
-		wp_send_json_success( array(
-			'results' => $results,
-			'pagination' => $pagination,
-			'search_query' => $search_query,
-		) );
-	} else {
-		wp_send_json_error();
+		wp_reset_postdata();
 	}
 
+	wp_send_json_success( $suggestions );
 	wp_die();
 }
-
-add_action( 'wp_ajax_boo_filter_posts', 'boo_filter_posts' );
-add_action( 'wp_ajax_nopriv_boo_filter_posts', 'boo_filter_posts' );
-
-
+add_action( 'wp_ajax_boo_live_search', 'boo_ajax_live_search' );
+add_action( 'wp_ajax_nopriv_boo_live_search', 'boo_ajax_live_search' );

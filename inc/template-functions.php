@@ -102,6 +102,12 @@ function boo_footer_wrapper() {
 add_action( 'boo_footer', 'boo_footer_wrapper', 10 );
 
 
+// Register Elementor locations for both header and footer
+function boo_register_elementor_locations( $elementor_theme_manager ) {
+	$elementor_theme_manager->register_location( 'header' );
+	$elementor_theme_manager->register_location( 'footer' );
+}
+add_action( 'elementor/theme/register_locations', 'boo_register_elementor_locations' );
 
 /**
  *
@@ -109,26 +115,14 @@ add_action( 'boo_footer', 'boo_footer_wrapper', 10 );
  */
 if ( ! function_exists( 'boo_pagination' ) ) {
 
-	function boo_pagination( $query = null ) {
-		$query = $query ? $query : $GLOBALS['wp_query'];
-
-		if ( $query->max_num_pages <= 1 ) {
-			return;
-		}
-
+	function boo_pagination() {
 		$paginations = paginate_links(
 			array(
-				'base' => str_replace( 999999999, '%#%', esc_url( get_pagenum_link( 999999999 ) ) ),
-				'format' => '?paged=%#%',
-				'current' => max( 1, get_query_var( 'paged' ) ),
-				'total' => $query->max_num_pages,
 				'type' => 'array',
 				'prev_text' => '<i class="fa-regular fa-arrow-left"></i>',
 				'next_text' => '<i class="fa-regular fa-arrow-right"></i>',
 			)
 		);
-
-		// Output pagination if available.
 		if ( $paginations ) {
 			echo '<div class="boo-basic-pagination"><nav><ul>';
 			foreach ( $paginations as $pagination ) {
@@ -138,7 +132,6 @@ if ( ! function_exists( 'boo_pagination' ) ) {
 		}
 	}
 }
-
 
 
 // Load Elementor Kits on Other page where Elementor Not loaded

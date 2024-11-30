@@ -11,12 +11,12 @@ $search_query = isset( $_GET['s'] ) ? sanitize_text_field( $_GET['s'] ) : '';
 $post_types = get_post_types( array( 'public' => true ), 'objects' );
 $posts_per_page = get_option( 'posts_per_page' );
 
+// Count posts per type
 $post_type_counts = array(
 	'posts' => 0,
-	'pages' => 0
+	'pages' => 0,
 );
 foreach ( $post_types as $post_type => $post_type_object ) {
-
 	$group = ( $post_type === 'page' ) ? 'pages' : 'posts';
 	$args = array(
 		's' => $search_query,
@@ -32,6 +32,19 @@ foreach ( $post_types as $post_type => $post_type_object ) {
 
 $countFindPosts = array_sum( $post_type_counts );
 
+// Determine selected post type
+$selected_post_type = isset( $_GET['post_type'] ) && array_key_exists( $_GET['post_type'], $post_types )
+	? sanitize_text_field( $_GET['post_type'] )
+	: array_keys( $post_types );
+
+// Fetch search results
+$args = [ 
+	's' => $search_query,
+	'post_type' => $selected_post_type,
+	'posts_per_page' => $posts_per_page,
+	'paged' => max( 1, get_query_var( 'paged' ) ),
+];
+$search_results = new WP_Query( $args );
 ?>
 
 <section class="search-result-wrapper">
@@ -65,36 +78,30 @@ $countFindPosts = array_sum( $post_type_counts );
 						<section class="search-filter-tab-area-wrapper">
 							<ul id="filter-tabs">
 								<li>
-									<a class="search-filter-active" href="#" data-post-type="all">
+									<a class="<?php echo empty( $_GET['post_type'] ) ? 'search-filter-active' : ''; ?>"
+										href="<?php echo add_query_arg( [ 's' => $search_query ], get_search_link() ); ?>">
 										<?php echo esc_html__( 'Alla', 'boo-energy' ) . ' (' . esc_html( $countFindPosts ) . ')'; ?>
 									</a>
 								</li>
-								<li>
-									<a href="#" data-post-type="page">
-										<?php echo esc_html__( 'Sidor', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['pages'] ) . ')'; ?>
-									</a>
-								</li>
-								<li>
-									<a href="#" data-post-type="post">
-										<?php echo esc_html__( 'Artiklar', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['posts'] ) . ')'; ?>
-									</a>
-								</li>
+								<?php if ( 0 < $post_type_counts['pages'] && 0 < $post_type_counts['posts'] ) : ?>
+									<li>
+										<a class="<?php echo ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'page' ) ? 'search-filter-active' : ''; ?>"
+											href="<?php echo add_query_arg( [ 's' => $search_query, 'post_type' => 'page' ], get_search_link() ); ?>">
+											<?php echo esc_html__( 'Sidor', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['pages'] ) . ')'; ?>
+										</a>
+									</li>
+									<li>
+										<a class="<?php echo ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'post' ) ? 'search-filter-active' : ''; ?>"
+											href="<?php echo add_query_arg( [ 's' => $search_query, 'post_type' => 'post' ], get_search_link() ); ?>">
+											<?php echo esc_html__( 'Artiklar', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['posts'] ) . ')'; ?>
+										</a>
+									</li>
+								<?php endif; ?>
 							</ul>
-
-
 						</section>
 						<section class="search-result-area-wrapper" id="search-results">
 							<div id="search-results-container">
 								<?php
-								// Fetch initial search results
-								$args = [ 
-									's' => $search_query,
-									'post_type' => array_keys( $post_types ),
-									'posts_per_page' => $posts_per_page,
-								];
-
-								$search_results = new WP_Query( $args );
-
 								if ( $search_results->have_posts() ) :
 									while ( $search_results->have_posts() ) :
 										$search_results->the_post();
@@ -102,12 +109,16 @@ $countFindPosts = array_sum( $post_type_counts );
 									endwhile;
 
 									// Pagination
-									echo '<div class="search-pagination">';
+									echo '<div class="boo-basic-pagination">';
 									echo paginate_links( [ 
 										'total' => $search_results->max_num_pages,
 										'current' => max( 1, get_query_var( 'paged' ) ),
 										'prev_text' => '&laquo;',
 										'next_text' => '&raquo;',
+										'add_args' => [ 
+											's' => $search_query,
+											'post_type' => isset( $_GET['post_type'] ) ? sanitize_text_field( $_GET['post_type'] ) : '',
+										],
 									] );
 									echo '</div>';
 
@@ -117,8 +128,6 @@ $countFindPosts = array_sum( $post_type_counts );
 								endif;
 								?>
 							</div>
-							<div id="pagination-container"></div>
-							<?php boo_pagination( $search_results ); ?>
 						</section>
 					<?php else : ?>
 						<?php get_template_part( 'template-parts/content', 'none' ); ?>
