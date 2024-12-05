@@ -10,6 +10,8 @@
 06. Search Bar
 07. Boo Tag
 08. Boo Pagination CSS
+09. Search Suggestions CSS
+10. Aktuell driftstatus CSS
  ****************************************************/
 
 /* === 01 Staer CORE CSS === */
@@ -80,14 +82,11 @@ p {
   margin-bottom: 0px;
 }
 *,
-ul {
+:where(:not(.single__post ul)) {
   padding: 0px;
   margin: 0px;
 }
-.single__post ul {
-  padding-left: 15px !important;
-  margin: auto !important;
-}
+
 a {
   text-decoration: none !important;
 }
@@ -1025,14 +1024,19 @@ body.menu-open {
   border-radius: 8px;
 }
 /* ===  End Boo Pagination CSS === */
+
+/* ===  Start Search Suggestions CSS === */
 .search-suggestions {
   position: absolute;
   background: #fff;
   border: 1px solid #ddd;
-  max-width: 300px;
+  max-width: 100%;
   width: 100%;
   z-index: 1000;
   display: none;
+  left: 0;
+  top: 122px;
+  transition: all 0.3s ease-in;
 }
 
 .suggestion {
@@ -1054,4 +1058,121 @@ body.menu-open {
   padding: 10px;
   color: #999;
   text-align: center;
+}
+/* ===  End Search Suggestions CSS === */
+
+/* ===  Start Aktuell driftstatus CSS   === */
+ul.tab-area-filter-main {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+ul.tab-area-filter-main li a {
+  padding: 7px 15px;
+  display: block;
+  border-radius: 8px;
+  border: 1px solid var(--e-global-color-3335742);
+  transition: all 0.3s ease-in;
+}
+
+ul.tab-area-filter-main li a:hover,
+ul.tab-area-filter-main li a:focus,
+ul.tab-area-filter-main li a:checked,
+ul.tab-area-filter-main li a.tab-filter-active {
+  background-color: var(--e-global-color-813ac8f);
+  border-color: var(--e-global-color-primary);
+}
+/* ===  End Aktuell driftstatus CSS   === */
+.notifications-area-main {
+  width: 916px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.notifications-area-main .single-notification-result {
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  gap: 16px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0px 4px 8px 0px #51413a1a;
+}
+
+.notifications-area-main .single-notification-result-top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notifications-area-main .single-notification-result-middle,
+.notifications-area-main .single-notification-result-informartion {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notifications-area-main .single-notification-result-informartion {
+  display: flex;
+  flex-direction: row;
+  border-top: 1px solid var(--e-global-color-3335742);
+  border-bottom: 1px solid var(--e-global-color-3335742);
+  padding-top: 16px;
+  padding-bottom: 16px;
+}
+:where(
+    .single-notification-result-informartion p > span,
+    .single-notification-result-date p,
+    .single-notification-result-btn p
+  ) {
+  font-weight: 700;
+}
+.notifications-area-main .single-notification-result-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.notifications-area-main
+  .single-notification-result-btn
+  .single-notification-result-main {
+  padding-top: 16px;
+  border-top: 1px solid var(--e-global-color-3335742);
+}
+.notifications-area-main
+  .single-notification-result-btn
+  .single-notification-result-main
+  p {
+  font-weight: 400;
+}
+.notifications-area-main .single-notification-contact-area p a {
+  display: block;
+}
+.notifications-area-main .notification-area-result {
+  gap: 24px;
+}
+.notifications-area-main .single-notification-result-type {
+  padding: 6px 8px;
+  background-color: var(--e-global-color-813ac8f);
+  border-radius: 8px;
+  color: var(--e-global-color-secondary);
+}
+
+.notifications-area-main
+  .notification-area-result.draft-disable
+  .single-notification-result {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.notifications-area-main
+  .notification-area-result.draft-disable
+  .single-notification-result
+  .single-notification-contact-area
+  a {
+  cursor: unset;
 }

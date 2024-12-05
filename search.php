@@ -60,14 +60,15 @@ $search_results = new WP_Query( $args );
 			<div class="col-lg-8">
 				<section class="search-area-result-main-wrapper">
 					<div class="search-form-wrapper-main boo-search-bar">
-						<p><?php esc_html_e( 'What are you looking for?', 'boo-energy' ); ?></p>
+						<p><?php echo esc_html__( 'Vad söker du efter?', 'boo-energy' ); ?></p>
 						<?php get_search_form(); ?>
 					</div>
 					<header class="page-header">
 						<p class="typography-bread-large">
 							<?php
+
 							printf(
-								esc_html__( 'Your search for %s returned %s results', 'boo-energy' ),
+								esc_html__( 'Din sökning “%s” gav %s träffar', 'boo-energy' ),
 								'<span>“' . esc_html( $search_query ) . '”</span>',
 								'<span>' . esc_html( $countFindPosts ) . '</span>'
 							);
@@ -76,7 +77,7 @@ $search_results = new WP_Query( $args );
 					</header>
 					<?php if ( $countFindPosts > 0 ) : ?>
 						<section class="search-filter-tab-area-wrapper">
-							<ul id="filter-tabs">
+							<ul class="filter-tab-section" id="filter-tabs">
 								<li>
 									<a class="<?php echo empty( $_GET['post_type'] ) ? 'search-filter-active' : ''; ?>"
 										href="<?php echo add_query_arg( [ 's' => $search_query ], get_search_link() ); ?>">

@@ -3,5 +3,7 @@
 		placeholder="<?php echo esc_attr_x( 'Skriv ett sökord', 'boo_energy' ) ?>"
 		value="<?php echo get_search_query() ?>" name="s" title="<?php echo esc_attr_x( 'Search for:', 'label' ) ?>" />
 	<input type="submit" class="search-submit" value="<?php echo esc_attr_x( 'Sök', 'submit button' ) ?>" />
-	<div id="search-suggestions" class="search-suggestions"></div>
+	<?php if ( ! wp_is_mobile() ) : ?>
+		<div id="search-suggestions" class="search-suggestions"></div>
+	<?php endif; ?>
 </form>

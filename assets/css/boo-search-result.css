@@ -66,3 +66,14 @@ section.search-filter-tab-area-wrapper ul li a.search-filter-active {
   background-color: var(--e-global-color-813ac8f);
   border-color: var(--e-global-color-primary);
 }
+.search-result-wrapper .boo-basic-pagination {
+  padding: 77px 0 88px;
+}
+
+.search-result-wrapper .boo-basic-pagination span.page-numbers.current {
+  font-weight: 700;
+  height: 24px;
+  width: 32px;
+  border: 1px solid var(--e-global-color-3335742);
+  border-radius: 8px;
+}

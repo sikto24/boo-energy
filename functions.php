@@ -49,7 +49,7 @@ function boo_energy_setup() {
 	 *
 	 * @link https://developer.wordpress.org/themes/functionality/featured-images-post-thumbnails/
 	 */
-	add_theme_support( 'post-thumbnails', array( 'post', 'studion', 'skolan' ) );
+	add_theme_support( 'post-thumbnails', array( 'post', 'studion', 'skolan', 'team_members' ) );
 
 
 	// This theme uses wp_nav_menu() in one location.
@@ -206,32 +206,7 @@ require_once BOO_THEME_INC . 'class-wp-bootstrap-navwalker.php';
  */
 require_once BOO_THEME_INC . 'boo-header-extend.php';
 
-function boo_ajax_live_search() {
-	$search_query = isset( $_POST['query'] ) ? sanitize_text_field( $_POST['query'] ) : '';
-	$suggestions = [];
 
-	if ( ! empty( $search_query ) ) {
-		$args = [ 
-			's' => $search_query,
-			'post_type' => [ 'post', 'page' ], // Add other post types if needed
-			'posts_per_page' => 5, // Limit the number of suggestions
-		];
-		$query = new WP_Query( $args );
 
-		if ( $query->have_posts() ) {
-			while ( $query->have_posts() ) {
-				$query->the_post();
-				$suggestions[] = [ 
-					'title' => get_the_title(),
-					'link' => get_permalink(),
-				];
-			}
-		}
-		wp_reset_postdata();
-	}
 
-	wp_send_json_success( $suggestions );
-	wp_die();
-}
-add_action( 'wp_ajax_boo_live_search', 'boo_ajax_live_search' );
-add_action( 'wp_ajax_nopriv_boo_live_search', 'boo_ajax_live_search' );
+

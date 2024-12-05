@@ -25,7 +25,7 @@ if ( 'Half' == $boo_select_layout ) {
 
 
 <!-- Start Page Section -->
-<section id="primary" class="page-area-wrapper site-main">
+<section id="primary" class="page-area-wrapper site-main boo-single-post d-p-120 m-p-32">
 	<div class="container">
 		<div class="row">
 			<div class="<?php echo $page_layout; ?>">

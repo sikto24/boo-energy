@@ -23,7 +23,7 @@ function boo_theme_scripts() {
 	wp_enqueue_style( 'boo-style', get_stylesheet_uri() );
 
 	// CSS based on Section / Page
-	if ( is_single() || is_home() || is_page_template( 'template-boo-skolan.php' ) ) {
+	if ( is_page() || is_single() || is_home() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_style( 'boo-single-post', BOO_THEME_CSS_DIR . 'boo-single-post.css', null, '1.0.0', 'all' );
 		wp_enqueue_style( 'magnific-popup', BOO_THEME_CSS_DIR . 'magnific-popup.min.css', null, '1.1.0', 'all' );
 	}
@@ -58,6 +58,14 @@ function boo_theme_scripts() {
 	] );
 
 
+	// Boo notification ajax
+	wp_enqueue_script( 'boo-notification-ajax', BOO_THEME_JS_DIR . 'boo-notification-ajax.js', array( 'jquery' ), null, true );
+	wp_localize_script( 'boo-notification-ajax', 'booajaxurl', [ 
+		'ajax_url' => admin_url( 'admin-ajax.php' ),
+		'nonce' => wp_create_nonce( 'booNotifications' ),
+	] );
+
+
 	if ( is_home() && ! is_front_page() || is_page_template( 'template-boo-skolan.php' ) ) {
 		wp_enqueue_script( 'boo-blog', BOO_THEME_JS_DIR . 'boo-blog-ajax.js', array( 'jquery' ), null, true );
 		wp_localize_script( 'boo-blog', 'boo_blog_ajax', array(
@@ -74,6 +82,10 @@ function boo_theme_scripts() {
 		) );
 
 	}
+
+
+
+
 
 }
 add_action( 'wp_enqueue_scripts', 'boo_theme_scripts' );

@@ -287,35 +287,32 @@ function boo_load_more_posts() {
  */
 function filter_posts_by_category() {
 	check_ajax_referer( 'blogPosts', 'nonce' );
-	// Check if category parameter is set
 	if ( isset( $_POST['category_slug'] ) ) {
 		$category_slug = sanitize_text_field( $_POST['category_slug'] );
 
-		// Set up the query arguments
 		$args = array(
 			'post_type' => array( 'post' ),
 			'posts_per_page' => 5,
 		);
 
 		if ( ! empty( $category_slug ) ) {
-			$args['category_name'] = $category_slug; // For default post categories
+			$args['category_name'] = $category_slug;
 			$args['tax_query'] = array(
 				array(
-					'taxonomy' => 'category',  // Change to your custom taxonomy
+					'taxonomy' => 'category',
 					'field' => 'slug',
 					'terms' => $category_slug,
 				),
 			);
 		}
 
-		// Custom query for posts
+
 		$query = new WP_Query( $args );
 
-		// Check if there are posts
+
 		if ( $query->have_posts() ) :
 			while ( $query->have_posts() ) :
 				$query->the_post();
-				// Use the existing template part for each post
 				get_template_part( 'template-parts/blog/content-blog' );
 			endwhile;
 			wp_reset_postdata();
@@ -324,7 +321,7 @@ function filter_posts_by_category() {
 		endif;
 	}
 
-	// End the script with wp_die to handle AJAX request
+
 	wp_die();
 }
 add_action( 'wp_ajax_filter_posts', 'filter_posts_by_category' );
@@ -360,3 +357,140 @@ function load_all_posts() {
 
 add_action( 'wp_ajax_load_all_posts', 'load_all_posts' );
 add_action( 'wp_ajax_nopriv_load_all_posts', 'load_all_posts' );
+
+
+/**
+ * Summary of boo_ajax_live_search
+ * @return void
+ */
+function boo_ajax_live_search() {
+	$search_query = isset( $_POST['query'] ) ? sanitize_text_field( $_POST['query'] ) : '';
+	$suggestions = [];
+
+	if ( ! empty( $search_query ) ) {
+		$args = [ 
+			's' => $search_query,
+			'post_type' => [ 'post', 'page' ], // Add other post types if needed
+			'posts_per_page' => 5, // Limit the number of suggestions
+		];
+		$query = new WP_Query( $args );
+
+		if ( $query->have_posts() ) {
+			while ( $query->have_posts() ) {
+				$query->the_post();
+				$suggestions[] = [ 
+					'title' => get_the_title(),
+					'link' => get_permalink(),
+				];
+			}
+		}
+		wp_reset_postdata();
+	}
+
+	wp_send_json_success( $suggestions );
+	wp_die();
+}
+add_action( 'wp_ajax_boo_live_search', 'boo_ajax_live_search' );
+add_action( 'wp_ajax_nopriv_boo_live_search', 'boo_ajax_live_search' );
+
+
+
+
+/**
+ *  move_notifications_to_history
+ * @return void
+ */
+if ( ! wp_next_scheduled( 'move_expired_notifications' ) ) {
+	wp_schedule_event( time(), 'hourly', 'move_expired_notifications' );
+}
+add_action( 'move_expired_notifications', 'move_notifications_to_history' );
+
+function move_notifications_to_history() {
+	$current_time = current_time( 'Y-m-d H:i:s' );
+	$args = array(
+		'post_type' => 'notification',
+		'post_status' => 'publish',
+		'meta_query' => array(
+			'posts_per_page' => -1,
+			array(
+				'key' => 'avbrott_avslutas',
+				'value' => $current_time,
+				'compare' => '<=',
+				'type' => 'DATETIME',
+			),
+		),
+	);
+
+	$query = new WP_Query( $args );
+	if ( $query->have_posts() ) {
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			$post_id = get_the_ID();
+			wp_update_post( array(
+				'ID' => $post_id,
+				'post_status' => 'draft',
+			) );
+		}
+	}
+	wp_reset_postdata();
+}
+
+// Move Draft to trash after 48hours
+
+if ( ! wp_next_scheduled( 'trash_history_notifications' ) ) {
+	wp_schedule_event( time(), 'hourly', 'trash_history_notifications' );
+}
+add_action( 'trash_history_notifications', 'trash_expired_notifications' );
+
+
+function trash_expired_notifications() {
+	$args = array(
+		'post_type' => 'notification',
+		'post_status' => 'draft',
+		'date_query' => array(
+			array(
+				'column' => 'post_modified_gmt',
+				'before' => '2 hours ago',
+			)
+		)
+	);
+	$query = new WP_Query( $args );
+
+	if ( $query->have_posts() ) {
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			wp_trash_post( get_the_ID() );
+		}
+	}
+	wp_reset_postdata();
+}
+
+/**
+ * Summary of boo_filter_notifications
+ * @return void
+ */
+function boo_filter_notifications() {
+	check_ajax_referer( 'booNotifications', 'nonce' );
+	$post_status = sanitize_text_field( $_POST['post_status'] );
+
+	$args = array(
+		'post_type' => 'notification',
+		'post_status' => $post_status,
+		'posts_per_page' => -1,
+	);
+
+	$query = new WP_Query( $args );
+
+	if ( $query->have_posts() ) {
+		while ( $query->have_posts() ) {
+			$query->the_post();
+			get_template_part( '/template-parts/notifications/content-notification' );
+		}
+	} else {
+		echo '<p>' . esc_html__( 'No notifications found.', 'boo-energy' ) . '</p>';
+	}
+
+	wp_die();
+}
+add_action( 'wp_ajax_filter_notifications', 'boo_filter_notifications' );
+add_action( 'wp_ajax_nopriv_filter_notifications', 'boo_filter_notifications' );

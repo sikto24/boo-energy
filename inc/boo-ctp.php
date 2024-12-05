@@ -21,9 +21,9 @@ add_action( "admin_menu", "boo_menu_top_level" );
 
 function boo_notification_post_type() {
 	$labels = [ 
-		"name" => esc_html__( "Notifications", "boo-energy" ),
-		"singular_name" => esc_html__( "Notification", "boo-energy" ),
-		"menu_name" => esc_html__( "Notifications", "boo-energy" ),
+		"name" => esc_html__( "Drift status", "boo-energy" ),
+		"singular_name" => esc_html__( "Drift status", "boo-energy" ),
+		"menu_name" => esc_html__( "Drift status", "boo-energy" ),
 	];
 	$args = [ 
 		"label" => esc_html__( "Notifications", "boo-energy" ),
@@ -85,7 +85,30 @@ function boo_skolan_post_type() {
 	register_post_type( "skolan", $args );
 }
 
+function boo_team_members_post_type() {
+	$labels = [ 
+		"name" => esc_html__( "Members", "boo-energy" ),
+		"singular_name" => esc_html__( "Member", "boo-energy" ),
+		"menu_name" => esc_html__( "Members", "boo-energy" ),
+	];
+	$args = [ 
+		"label" => esc_html__( "Members", "boo-energy" ),
+		"labels" => $labels,
+		"description" => "Add Member Here",
+		"public" => true,
+		"publicly_queryable" => true,
+		'has_archive' => false,
+		"show_ui" => true,
+		"show_in_menu" => "boo-main-menu",
+		"hierarchical" => false,
+		"can_export" => false,
+		"supports" => [ "title", "thumbnail", "revisions" ],
+
+	];
+	register_post_type( "team_members", $args );
+}
 add_action( 'init', 'boo_notification_post_type' );
 add_action( 'init', 'boo_studion_post_type' );
 add_action( 'init', 'boo_skolan_post_type' );
+add_action( 'init', 'boo_team_members_post_type' );
 
