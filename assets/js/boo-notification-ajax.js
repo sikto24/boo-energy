@@ -5,6 +5,7 @@ jQuery(document).ready(function ($) {
       .off('click')
       .on('click', function (e) {
         e.preventDefault();
+        $(this).toggleClass('single-notification-active');
         $(this).siblings(contactArea).slideToggle(300);
       });
   }
@@ -16,6 +17,7 @@ jQuery(document).ready(function ($) {
 
     const dataStatus = $(this).data('status');
     const dataMockup = $('#notification-results');
+    const postModeSelector = $(this).data('filter');
     $.ajax({
       url: booajaxurl.ajax_url,
       type: 'POST',
@@ -30,11 +32,6 @@ jQuery(document).ready(function ($) {
       success: function (response) {
         dataMockup.html(response);
         BooAktuellDriftstatus();
-        if (dataStatus == 'draft') {
-          dataMockup.addClass('draft-disable');
-        } else {
-          dataMockup.removeClass('draft-disable');
-        }
       },
       error: function () {
         dataMockup.html(

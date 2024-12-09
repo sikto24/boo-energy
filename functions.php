@@ -132,6 +132,9 @@ if ( ! function_exists( 'wp_body_open' ) ) {
 	}
 }
 
+// Support For Shortcode on Custom HTML
+add_filter( 'widget_custom_html_content', 'do_shortcode' );
+
 // Define Boo all Directory
 
 define( 'BOO_THEME_DIR', get_template_directory() );

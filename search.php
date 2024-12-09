@@ -45,6 +45,9 @@ $args = [
 	'paged' => max( 1, get_query_var( 'paged' ) ),
 ];
 $search_results = new WP_Query( $args );
+
+$resultTabActive = ( 0 < $post_type_counts['pages'] && 0 < $post_type_counts['posts'] );
+
 ?>
 
 <section class="search-result-wrapper">
@@ -78,19 +81,25 @@ $search_results = new WP_Query( $args );
 					<?php if ( $countFindPosts > 0 ) : ?>
 						<section class="search-filter-tab-area-wrapper">
 							<ul class="filter-tab-section" id="filter-tabs">
-								<li>
-									<a class="<?php echo empty( $_GET['post_type'] ) ? 'search-filter-active' : ''; ?>"
-										href="<?php echo add_query_arg( [ 's' => $search_query ], get_search_link() ); ?>">
-										<?php echo esc_html__( 'Alla', 'boo-energy' ) . ' (' . esc_html( $countFindPosts ) . ')'; ?>
-									</a>
-								</li>
-								<?php if ( 0 < $post_type_counts['pages'] && 0 < $post_type_counts['posts'] ) : ?>
+								<?php if ( $resultTabActive ) : ?>
+									<li>
+										<a class="<?php echo empty( $_GET['post_type'] ) ? 'search-filter-active' : ''; ?>"
+											href="<?php echo add_query_arg( [ 's' => $search_query ], get_search_link() ); ?>">
+											<?php echo esc_html__( 'Alla', 'boo-energy' ) . ' (' . esc_html( $countFindPosts ) . ')'; ?>
+										</a>
+									</li>
+								<?php endif; ?>
+
+								<?php if ( 0 < $post_type_counts['pages'] ) : ?>
 									<li>
 										<a class="<?php echo ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'page' ) ? 'search-filter-active' : ''; ?>"
 											href="<?php echo add_query_arg( [ 's' => $search_query, 'post_type' => 'page' ], get_search_link() ); ?>">
 											<?php echo esc_html__( 'Sidor', 'boo-energy' ) . ' (' . esc_html( $post_type_counts['pages'] ) . ')'; ?>
 										</a>
 									</li>
+								<?php endif; ?>
+
+								<?php if ( 0 < $post_type_counts['posts'] ) : ?>
 									<li>
 										<a class="<?php echo ( isset( $_GET['post_type'] ) && $_GET['post_type'] === 'post' ) ? 'search-filter-active' : ''; ?>"
 											href="<?php echo add_query_arg( [ 's' => $search_query, 'post_type' => 'post' ], get_search_link() ); ?>">
@@ -99,6 +108,7 @@ $search_results = new WP_Query( $args );
 									</li>
 								<?php endif; ?>
 							</ul>
+
 						</section>
 						<section class="search-result-area-wrapper" id="search-results">
 							<div id="search-results-container">

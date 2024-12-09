@@ -54,6 +54,15 @@
 								?>
 							</div>
 						</div>
+						<div class="footer-top-bottom-single-area footer-top-bottom-single-area-end">
+							<div class="footer-top-area-widget">
+								<?php
+								if ( is_active_sidebar( 'footer-5' ) ) {
+									dynamic_sidebar( 'footer-5' );
+								}
+								?>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -64,54 +73,36 @@
 					<div class="footer-middle-heading">
 						<h6><?php echo esc_html__( 'Ladda ner', 'boo-energy' ); ?></h6>
 					</div>
-					<div class="footer-middle-app-store-img">
-						<a href="#">
-							<img src="<?php echo BOO_THEME_IMG_DIR . 'apple-store.svg'; ?>" alt="Apple Store">
-						</a>
-						<a href="#">
-							<img src="<?php echo BOO_THEME_IMG_DIR . 'play-store.svg'; ?>" alt="Google Store">
-						</a>
-					</div>
+					<?php echo do_shortcode( '[boo_store]' ); ?>
 					<div class="footer-middle-share-area d-flex">
 						<h6><?php echo esc_html__( 'Följ oss', 'boo-energy' ); ?></h6>
 						<div class="footer-middle-social-share">
-							<?php if ( ! empty( get_theme_mod( 'boo_social_instagram_link' ) ) ) : ?>
-								<span>
-									<a target="_blank"
-										href="<?php echo esc_url( get_theme_mod( 'boo_social_instagram_link' ) ); ?>">
-										<img src="<?php echo BOO_THEME_IMG_DIR . 'instagram.svg'; ?>" alt="instagram">
-									</a>
-								</span>
-							<?php endif; ?>
-							<?php if ( ! empty( get_theme_mod( 'boo_social_facebook_link' ) ) ) : ?>
-								<span>
-									<a target="_blank"
-										href="<?php echo esc_url( get_theme_mod( 'boo_social_facebook_link' ) ); ?>">
-										<img src="<?php echo BOO_THEME_IMG_DIR . 'facebook.svg'; ?>" alt="facebook">
-									</a>
-								</span>
-							<?php endif; ?>
+							<?php echo do_shortcode( '[boo_social_icons]' ); ?>
 						</div>
 					</div>
 				</div>
 			</div>
 		</div>
 		<div class="footer-end-area">
-			<div class="col"></div>
+			<div class="col">
+				<div class="footer-copy-left d-flex flex-row d-pt-32  m-p-24 d-pb-24">
+
+					<span>&copy;
+						<?php echo esc_html__( bloginfo( 'site_name' ), 'boo-energy' ) . ' ' . get_the_date( 'Y' ); ?>
+					</span>
+					<?php
+					wp_nav_menu(
+						array(
+							'theme_location' => 'menu-5',
+							'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
+						)
+					);
+					?>
+				</div>
+			</div>
 		</div>
-		<div class="footer-copy-right d-flex d-pt-32  m-p-24 d-pb-24">
-			<span>&copy;
-				<?php echo esc_html__( bloginfo( 'site_name' ), 'boo-energy' ) . ' ' . get_the_date( 'Y' ); ?>
-			</span>
-			<?php
-			wp_nav_menu(
-				array(
-					'theme_location' => 'menu-5',
-					'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
-				)
-			);
-			?>
-		</div>
+	</div>
+
 	</div>
 </footer>
 <!-- End Footer  -->

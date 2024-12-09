@@ -34,7 +34,9 @@
 						<?php boo_header_menu(); ?>
 					</nav>
 					<div class="header-right-login-btn">
-						<a href="#"><?php echo esc_html__( 'Logga in', 'boo-energy' ); ?></a>
+						<a href="#">
+							<img src="<?php echo BOO_THEME_IMG_DIR . 'user.svg'; ?>">
+							<span><?php echo esc_html__( 'Logga in', 'boo-energy' ); ?></a></span>
 					</div>
 				</div>
 				<div class="boo-mobile-header-menu d-flex align-items-center justify-content-end d-block d-lg-none">

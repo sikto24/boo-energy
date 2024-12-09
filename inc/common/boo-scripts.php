@@ -102,3 +102,8 @@ function boo_admin_custom_scripts() {
 add_action( 'admin_enqueue_scripts', 'boo_admin_custom_scripts' );
 
 
+// Scripts and Style for Admin
+add_action( 'admin_enqueue_scripts', 'boo_admin_scripts' );
+function boo_admin_scripts() {
+	wp_enqueue_style( 'admin-style', BOO_THEME_CSS_DIR . 'boo-admin.css', null, true );
+}

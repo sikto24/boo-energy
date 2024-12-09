@@ -400,12 +400,16 @@ add_action( 'wp_ajax_nopriv_boo_live_search', 'boo_ajax_live_search' );
  *  move_notifications_to_history
  * @return void
  */
-if ( ! wp_next_scheduled( 'move_expired_notifications' ) ) {
+if ( ! wp_next_scheduled( 'move_expired_notifications' ) && get_field( 'post_mode_selector', 'option' ) === 'false' ) {
 	wp_schedule_event( time(), 'hourly', 'move_expired_notifications' );
 }
 add_action( 'move_expired_notifications', 'move_notifications_to_history' );
 
 function move_notifications_to_history() {
+	$post_mode_selector = get_field( 'post_mode_selector', 'option' );
+	if ( $post_mode_selector === 'true' ) {
+		return;
+	}
 	$current_time = current_time( 'Y-m-d H:i:s' );
 	$args = array(
 		'post_type' => 'notification',
@@ -428,7 +432,7 @@ function move_notifications_to_history() {
 			$post_id = get_the_ID();
 			wp_update_post( array(
 				'ID' => $post_id,
-				'post_status' => 'draft',
+				'post_status' => 'pending',
 			) );
 		}
 	}
@@ -437,22 +441,26 @@ function move_notifications_to_history() {
 
 // Move Draft to trash after 48hours
 
-if ( ! wp_next_scheduled( 'trash_history_notifications' ) ) {
+if ( ! wp_next_scheduled( 'trash_history_notifications' ) && get_field( 'post_mode_selector', 'option' ) === 'false' ) {
 	wp_schedule_event( time(), 'hourly', 'trash_history_notifications' );
 }
 add_action( 'trash_history_notifications', 'trash_expired_notifications' );
 
 
 function trash_expired_notifications() {
+	$post_mode_selector = get_field( 'post_mode_selector', 'option' );
+	if ( 'true' === $post_mode_selector ) {
+		return;
+	}
 	$args = array(
 		'post_type' => 'notification',
-		'post_status' => 'draft',
+		'post_status' => 'pending',
 		'date_query' => array(
 			array(
 				'column' => 'post_modified_gmt',
-				'before' => '2 hours ago',
-			)
-		)
+				'before' => '48 hours ago',
+			),
+		),
 	);
 	$query = new WP_Query( $args );
 
@@ -472,7 +480,6 @@ function trash_expired_notifications() {
 function boo_filter_notifications() {
 	check_ajax_referer( 'booNotifications', 'nonce' );
 	$post_status = sanitize_text_field( $_POST['post_status'] );
-
 	$args = array(
 		'post_type' => 'notification',
 		'post_status' => $post_status,
@@ -494,3 +501,64 @@ function boo_filter_notifications() {
 }
 add_action( 'wp_ajax_filter_notifications', 'boo_filter_notifications' );
 add_action( 'wp_ajax_nopriv_filter_notifications', 'boo_filter_notifications' );
+
+// Manuall Control for notification posts
+add_action( 'acf/save_post', 'update_post_status_for_notifications', 20 );
+function update_post_status_for_notifications( $post_id ) {
+	if ( get_post_type( $post_id ) !== 'notification' && ( false === get_field( 'post_mode_selector', $post_id ) ) ) {
+		return;
+	}
+
+
+	$new_status = get_field( 'select_post_mode', $post_id );
+
+	// Map the actual field values to WordPress post statuses.
+	$status_mapping = [ 
+		'ongoing' => 'publish',
+		'history' => 'pending',
+	];
+
+	// If the field value matches a valid status, update the post status.
+	if ( isset( $status_mapping[ $new_status ] ) && true === get_field( 'post_mode_selector', $post_id ) ) {
+		$updated_post = wp_update_post( [ 
+			'ID' => $post_id,
+			'post_status' => $status_mapping[ $new_status ],
+		] );
+
+		error_log( 'Post Update Result: ' . ( is_wp_error( $updated_post ) ? $updated_post->get_error_message() : 'Success' ) );
+	} else {
+		error_log( 'Invalid Status: ' . $new_status );
+	}
+}
+
+
+// Custom Post State Show If manual Mode on
+add_filter( 'display_post_states', function ($states, $post) {
+	if ( get_post_type( $post ) !== 'notification' ) {
+		return $states;
+	}
+	if ( get_field( 'post_mode_selector', $post->ID ) === true ) {
+		$post_mode_selector = get_field( 'select_post_mode', $post->ID );
+
+		if ( $post_mode_selector ) {
+			switch ( $post_mode_selector ) {
+				case 'ongoing':
+					$post_mode_selector = 'Ongoing';
+					break;
+				case 'history':
+					$post_mode_selector = 'History';
+					break;
+				case 'planned':
+					$post_mode_selector = 'Planned';
+					break;
+				default:
+					break;
+			}
+
+			// Add the translated post mode as a custom post state label
+			$states[] = 'Manually — ' . esc_html( $post_mode_selector );
+		}
+	}
+
+	return $states;
+}, 10, 2 );
