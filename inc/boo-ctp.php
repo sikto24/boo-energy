@@ -9,7 +9,7 @@ function boo_menu_top_level() {
 		"manage_options",
 		"boo-main-menu",
 		"",
-		"/app/uploads/2024/11/boo.svg",
+		"/wp-content/uploads/2024/11/boo.svg",
 		4,
 	);
 }

@@ -23,12 +23,14 @@ jQuery(document).ready(function ($) {
       },
       success: function (response) {
         $('#boo-load-more-posts , .load-more-btn-posts-second').hide();
-        if (categorySlug === 'all') {
-          $('#boo-load-more-posts , .load-more-btn-posts-second').show();
-        }
+
         targetContainer.html(response);
         loadMorePostCat();
         loadMorebtnCta.show();
+        if (categorySlug === 'all') {
+          $('#boo-load-more-posts , .load-more-btn-posts-second').show();
+          loadMorebtnCta.hide();
+        }
       },
       error: function (xhr, status, error) {
         console.error('AJAX Error:', error);
@@ -49,6 +51,7 @@ jQuery(document).ready(function ($) {
     const loadMoreBtn = $('#load-more-post-cat');
     let currentPage = 1;
     const maxPages = parseInt(loadMoreBtn.data('max-pages'), 10);
+    console.log(maxPages);
     loadMoreBtn.on('click', function (e) {
       e.preventDefault();
       currentPage++;

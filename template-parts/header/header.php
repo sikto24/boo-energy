@@ -41,7 +41,8 @@
 				</div>
 				<div class="boo-mobile-header-menu d-flex align-items-center justify-content-end d-block d-lg-none">
 					<div class="boo-hamburger-menu-search">
-						<span class="top-bar-search-icon">Sök</span>
+						<span class="top-bar-search-icon"><img
+								src="<?php echo BOO_THEME_IMG_DIR . 'search.svg'; ?>"><?php echo esc_html__( 'Sök', 'boo-energy' ); ?></span>
 					</div>
 					<div class="boo-hamburger-menu">
 						<span></span>

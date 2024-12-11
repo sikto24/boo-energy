@@ -58,7 +58,7 @@ $custom_query = new WP_Query( $args );
 								<div class="boo-postbox-pagination load-more-btn-posts-frist text-center d-pt-32">
 									<a href="#" id="load-more-post-cat" class="boo-btn link-large"
 										data-max-pages="<?php echo $max_pages; ?>">
-										Ladda fler
+										<?php echo esc_html__( 'Ladda fler', 'boo-energy' ); ?>
 									</a>
 								</div>
 								<section aria-labelledby="Boo-skolan" class="boo-post-inner-section-wrapper d-p-88">

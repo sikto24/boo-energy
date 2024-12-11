@@ -43,7 +43,7 @@ function boo_energy_breadcrumb_markup() {
 	$boo_button_cs_url = get_field( 'button_cs_url' ) ? get_field( 'button_cs_url' ) : '';
 
 	if ( is_home() ) {
-		$boo_custom_page_title = ( $enable_custom_page_title ) ? get_field( 'page_title', $blog_page_id ) : $title;
+		$boo_custom_page_title = ( true === $enable_custom_page_title ) ? get_field( 'page_title', $blog_page_id ) : $title;
 
 	} else {
 		$boo_custom_page_title = $title;
@@ -52,7 +52,7 @@ function boo_energy_breadcrumb_markup() {
 	// Set color and background image based on page type and ACF fields
 	$breadcrumb_bg_color = ( true === $enable_breadcrumb_secendary_color || is_single() ) ? 'var(--e-global-color-8ba6df9)' : 'var(--e-global-color-primary)';
 	$pageTitleColor = ( true === $enable_breadcrumb_secendary_color || is_single() ) ? 'var(--e-global-color-1c78a44)' : 'var(--e-global-color-3de5e34)';
-	$breadcrumb_bg_image = ( has_post_thumbnail() && ! is_home() ) ? get_the_post_thumbnail_url() : '/app/uploads/2024/11/breadcrumb-bg.svg';
+	$breadcrumb_bg_image = ( has_post_thumbnail() && ! is_home() ) ? get_the_post_thumbnail_url() : '/wp-content/uploads/2024/11/breadcrumb-bg.svg';
 	$breadcrumb_class = ( has_post_thumbnail() && ! is_home() ) ? 'boo-single-post-breadcrumb' : 'boo-default-breadcrumb';
 
 	// Start breadcrumb markup
@@ -109,7 +109,8 @@ function boo_search_mockup() {
 			</div>
 			<div class="col-md-4 col-12">
 				<div class="search-bar-top-right justify-content-end d-flex">
-					<span class="search-close-btn">Stäng X</span>
+					<span class="search-close-btn"><?php echo esc_html__( 'Stäng', 'boo-enegery' ); ?> <img
+							src="<?php echo BOO_THEME_IMG_DIR . 'closed.svg'; ?>" alt=""></span>
 				</div>
 			</div>
 		</div>

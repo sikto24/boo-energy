@@ -108,7 +108,8 @@
   padding-left: 64px;
   padding-right: 64px;
   background: var(--e-global-color-8ba6df9)
-    url(/app/uploads/2024/11/inner-shape-bg.svg) no-repeat top right/162px;
+    url(/wp-content/uploads/2024/11/inner-shape-bg.svg) no-repeat top
+    right/162px;
   display: flex;
   flex-direction: column;
   gap: 24px;

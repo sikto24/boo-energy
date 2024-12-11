@@ -1,5 +1,5 @@
 <section class="footer-cta-area-wrapper d-flex align-items-center"
-	style="background-image:url('/app/uploads/2024/10/cta-shape.svg);">
+	style="background-image:url('/wp-content/uploads/2024/10/cta-shape.svg);">
 	<div class="container">
 		<div class="row footer-cta-area-row">
 			<div class="col-xxl-5 col-xl-6   col-12">

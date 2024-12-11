@@ -236,9 +236,6 @@ function boo_get_notification_count() {
 add_action( 'wp_footer', 'boo_get_notification_count' );
 
 
-// Load More Post Ajax
-add_action( 'wp_ajax_load_more_posts', 'boo_load_more_posts' );
-add_action( 'wp_ajax_nopriv_load_more_posts', 'boo_load_more_posts' );
 
 /**
  * Summary of boo_load_more_posts
@@ -277,6 +274,10 @@ function boo_load_more_posts() {
 
 	wp_die();
 }
+
+// Load More Post Ajax
+add_action( 'wp_ajax_load_more_posts', 'boo_load_more_posts' );
+add_action( 'wp_ajax_nopriv_load_more_posts', 'boo_load_more_posts' );
 
 
 
@@ -370,8 +371,8 @@ function boo_ajax_live_search() {
 	if ( ! empty( $search_query ) ) {
 		$args = [ 
 			's' => $search_query,
-			'post_type' => [ 'post', 'page' ], // Add other post types if needed
-			'posts_per_page' => 5, // Limit the number of suggestions
+			'post_type' => [ 'post', 'page' ],
+			'posts_per_page' => 5,
 		];
 		$query = new WP_Query( $args );
 
@@ -512,13 +513,11 @@ function update_post_status_for_notifications( $post_id ) {
 
 	$new_status = get_field( 'select_post_mode', $post_id );
 
-	// Map the actual field values to WordPress post statuses.
 	$status_mapping = [ 
 		'ongoing' => 'publish',
 		'history' => 'pending',
 	];
 
-	// If the field value matches a valid status, update the post status.
 	if ( isset( $status_mapping[ $new_status ] ) && true === get_field( 'post_mode_selector', $post_id ) ) {
 		$updated_post = wp_update_post( [ 
 			'ID' => $post_id,

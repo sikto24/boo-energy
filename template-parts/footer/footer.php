@@ -45,7 +45,7 @@
 								?>
 							</div>
 						</div>
-						<div class="footer-top-bottom-single-area">
+						<div class="footer-top-bottom-single-area footer-social-links-area">
 							<div class="footer-top-area-widget">
 								<?php
 								if ( is_active_sidebar( 'footer-4' ) ) {
@@ -84,20 +84,29 @@
 			</div>
 		</div>
 		<div class="footer-end-area">
-			<div class="col">
-				<div class="footer-copy-left d-flex flex-row d-pt-32  m-p-24 d-pb-24">
+			<div class="row">
+				<div class="col-lg-5">
+					<div class="footer-copy-left d-flex flex-row">
 
-					<span>&copy;
-						<?php echo esc_html__( bloginfo( 'site_name' ), 'boo-energy' ) . ' ' . get_the_date( 'Y' ); ?>
-					</span>
-					<?php
-					wp_nav_menu(
-						array(
-							'theme_location' => 'menu-5',
-							'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
-						)
-					);
-					?>
+						<span>&copy;
+							<?php echo esc_html__( bloginfo( 'site_name' ), 'boo-energy' ) . ' ' . get_the_date( 'Y' ); ?>
+						</span>
+						<?php
+						wp_nav_menu(
+							array(
+								'theme_location' => 'menu-5',
+								'menu_class' => 'copy-right-menu d-flex boo-reset-ul ',
+							)
+						);
+						?>
+					</div>
+				</div>
+				<div class="col-lg-7">
+					<div class="footer-copy-right d-flex  flex-row">
+						<span>Boo Energi ekonomisk förening: 714000-0204</span>
+						<span>Boo Energi Försäljnings AB: 556492-3901</span>
+						<span>Boo Energi AB: 556476-6243</span>
+					</div>
 				</div>
 			</div>
 		</div>
